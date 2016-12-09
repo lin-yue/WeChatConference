@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>testajax</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width"/>
+</head>
+<body>
+
+<div id = "firstConf"></div>
+<script src="jquery-3.1.1.min.js"></script>
+<script>
+$.get("http://101.5.242.9/api/a/testajax").done(function (response, status, xhr) {
+            if (response.code != 0) {
+                alert(response.code)
+            } else {
+                console.log(response.data)
+            }
+        }).fail(function (xhr, errmsg, e) {
+            alert(errmsg)
+        }).always($.noop);
+</script>
+</body>
+</html>
+
