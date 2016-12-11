@@ -1,0 +1,73 @@
+.pageHead{
+	height:50px;
+	width:100%;
+	text-align: center;
+	line-height:50px;
+	background-color: #0080FF;
+}
+
+#add{
+	position:absolute;
+	left:90%;
+	top:1%;
+}
+
+.textOne{
+	color:#ffffff;
+}
+
+.textTwo{
+	font-weight: bold;
+}
+
+.image{
+	height:40%;
+}
+
+.extraInfo{
+	height:5%;
+	padding-left: 5%;
+	font-family: Microsoft YaHei;
+	font-size: 130%;
+	border-top:1px solid #d0d0d0;
+	border-bottom:1px solid #d0d0d0;
+}
+
+.content{
+	font-family: Microsoft YaHei;
+	padding-left:5%;	
+}
+
+#name{
+	height:5%;
+	padding-left: 5%;
+	font-family: Microsoft YaHei;
+	font-size: 150%;
+	font-weight: bold;
+}
+
+#time, #place{
+	height:4%;
+	padding-left: 5%;
+	font-size: 130%;
+	font-family: Microsoft YaHei;
+}
+
+.operate{
+	position:absolute;
+	left:40%;
+	height:10%;
+	width:10%;
+	padding-top: 10%;
+}
+
+input {
+	background: #1E90FF;
+	border: none;
+	padding: 10px 25px 10px 25px;
+	color: #FFF;
+	box-shadow: 1px 1px 5px #B6B6B6;
+	border-radius: 3px;
+	text-shadow: 1px 1px 1px #9E3F3F;
+	cursor: pointer;
+}
