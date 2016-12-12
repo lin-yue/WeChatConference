@@ -1,3 +1,4 @@
+
 function getQueryParams(qs) {
     qs = qs.split('+').join(' ');
 
@@ -12,7 +13,9 @@ function getQueryParams(qs) {
     return params;
 }
 
+
 window.urlParam = getQueryParams(document.location.search);
+
 
 window.dftFail = function (errno, errmsg, e) {
     alert("加载失败: [" + errno + "] " + errmsg + " " + e + "\n请重试");
@@ -51,11 +54,5 @@ window.api = {
         }).fail(function (xhr, errmsg, e) {
             return fail(-2, errmsg, e);
         }).always(complete);
-    }
-};
-
-window.updateDate = function (obj) {
-    for (var i = 1, len = arguments.length; i < len; ++i) {
-        obj[arguments[i]] = new Date(obj[arguments[i]] * 1000);
     }
 };

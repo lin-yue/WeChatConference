@@ -1,0 +1,34 @@
+
+.head{
+	vertical-align: left;
+	padding-left: 5%;
+	padding-top: 5%;
+	width:100%;
+	height:8%;
+}
+
+.search{
+	border-top:1px solid #d0d0d0;
+	border-bottom:1px solid #d0d0d0;
+	height: 10%;
+	background:#E8E8E8;
+}
+
+.textOne{
+	margin-left: 25%; 
+	margin-bottom: 5%;
+}
+
+input{
+	background-color: #ffffff;
+}
+
+.searchInput{
+	border:1px solid #d0d0d0;
+	border-radius: 7px;
+	margin:15px;
+	padding-left: 10%;
+	width:80%;
+	height:50%;
+	background:url("image/search.jpg") no-repeat scroll left center transparent;
+}

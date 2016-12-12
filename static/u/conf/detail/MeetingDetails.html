@@ -1,0 +1,118 @@
+<!Doctype html>
+<html>
+<head>
+	<title>会议基本信息</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+	<link rel="stylesheet" type="text/css" href="css/MeetingDetails.css">
+	<link rel="stylesheet" type="text/css" href="global.css">
+</head>
+<body>
+	<div class="pageHead">
+		<font face="Microsoft YaHei" class="textOne" size="4">会议基本信息</font>
+	</div>
+	
+	<div class="image">
+		<img v-bind:src="image"/>
+	</div>
+	</br>
+	<div id="name">
+		{{name}}
+	</div>
+	<div id="time">
+		{{time}}
+	</div>
+	<div id="place">
+		{{place}}
+	</div>
+	</br>
+	<div class="extraInfo" id="web">
+		网址：{{web}}
+	</div>
+	<div class="extraInfo" id="tel">
+		电话：{{tel}}
+	</div>
+	<div class="extraInfo" id="email">
+		邮箱：{{email}}
+	</div>
+	<div class="content">
+		{{content}}
+	</div>
+	<div class="operate">
+		<a href="#"><input type="button" v-if="status == 1" value="进入会议"/></a>
+		<a href="#"><input type="button" v-if="status == 0" value="准备中，暂不开放"/></a>
+		<a href="#"><input type="button" v-if="status == 2" value="报名"/></a>
+		<a href="#"><input type="button" v-if="status == 3" value="会议已结束"/></a>
+	</div>
+</body>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script>
+
+ 	var imag = new Vue({
+ 		el:'.image',
+ 		data:{
+ 			image:''
+ 		}
+ 	})
+
+	var name = new Vue({
+		el:'#name',
+		data:{
+			name:'Hello'
+		}
+	})
+
+	var time = new Vue({
+		el:'#time',
+		data:{
+			time:'2014-2'
+		}
+	})
+
+	var place = new Vue({
+		el:'#place',
+		data:{
+			place:'中国'
+		}
+	})
+
+	var web = new Vue({
+		el:'#web',
+		data:{
+			web:11,
+		}
+	})
+
+
+
+	var tel = new Vue({
+		el:'#tel',
+		data:{
+			tel:11,
+		}
+	})
+
+	var email = new Vue({
+		el:'#email',
+		data:{
+			email:11,
+		}
+	})
+
+	var content = new Vue({
+		el:'.content',
+		data:{
+			content:"???",
+		}
+	})
+
+	var status = new Vue({
+		el:'.operate',
+		data:{
+			status:1,
+		}
+	})
+</script>
+</html>

@@ -54,7 +54,7 @@ class APIView(BaseView):
 
     def api_wrapper(self, func, *args, **kwargs):
         code = 0
-        msg = ''
+        msg = '成功'
         result = None
         try:
             result = func(*args, **kwargs)
@@ -69,18 +69,18 @@ class APIView(BaseView):
         try:
             response = json.dumps({
                 'code': code,
-                'msg': msg,
+                'message': msg,
                 'data': result,
-            })
+            }, ensure_ascii=False)
         except:
             self.logger.exception('JSON Serializing failed in requesting %s', self.request.path)
             code = -1
             msg = 'Internal Error'
             response = json.dumps({
                 'code': code,
-                'msg': msg,
+                'message': msg,
                 'data': None,
-            })
+            }, ensure_ascii=False)
         return HttpResponse(response, content_type='application/json')
 
     def check_input(self, *keys):

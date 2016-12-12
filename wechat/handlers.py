@@ -40,7 +40,7 @@ class recentConferenceHandler(WeChatHandler):
                     'Title': conf['name'],
                     #'Description': tickets[tic].activity.description,
                     'PicUrl': "http://60.205.137.139/adminweb/"+ conf['image'],
-                    'Url': '',
+                    'Url': self.url_confDetail(conf['id']),
             })
         return self.reply_news(all_conferences)
 
@@ -61,7 +61,7 @@ class allConferenceHandler(WeChatHandler):
                     'Title': conf['name'],
                     #'Description': tickets[tic].activity.description,
                     'PicUrl': "http://60.205.137.139/adminweb/"+ conf['image'],
-                    'Url': '',
+                    'Url': self.url_confDetail(conf['id']),
             })
         return self.reply_news(all_conferences)
 
@@ -83,7 +83,7 @@ class myConferenceHandler(WeChatHandler):
                     'Title': conf['name'],
                     #'Description': tickets[tic].activity.description,
                     'PicUrl': "http://60.205.137.139/adminweb/"+ conf['image'],
-                    'Url': '',
+                    'Url': self.url_confDetail(conf['id']),
             })
         return self.reply_news(all_conferences)
 

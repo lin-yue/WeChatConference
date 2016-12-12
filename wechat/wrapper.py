@@ -89,6 +89,9 @@ class WeChatHandler(object):
     def url_bind(self):
         return settings.get_url('u/bind', {'openid': self.user.open_id})
 
+    def url_confDetail(self, confid):
+        return settings.get_url('u/conf/detail', {'confid': confid})
+
 
 class WeChatEmptyHandler(WeChatHandler):
 

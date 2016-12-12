@@ -32,7 +32,7 @@ def loginToChinaByWeixin(nickname,unionid,headimgurl,sex,location,language):
     request = urllib.request.Request(url,postdata)
     response=urllib.request.urlopen(request)
     s = response.read().decode('utf-8')
-    dic=eval(s)
+    dic=json.loads(s)
     #print(json.dumps(dic, ensure_ascii=False))
     return dic
 
@@ -49,7 +49,7 @@ def allConfList(userid,page,page_size):
     url="http://60.205.137.139/adminweb/REST/API-V2/allConfList?"+urlvalue
     response=urllib.request.urlopen(url)
     s = response.read().decode('utf-8')
-    dic=eval(s)
+    dic=json.loads(s)
     return dic
 
 # 3
@@ -65,7 +65,7 @@ def upcomingConfList(userid,page,page_size):
     url="http://60.205.137.139/adminweb/REST/API-V2/upcomingConfList?"+urlvalue
     response=urllib.request.urlopen(url)
     s = response.read().decode('utf-8')
-    dic=eval(s)
+    dic=json.loads(s)
     return dic
 
 # 4
@@ -81,7 +81,7 @@ def favoriteConfList(userid,page,page_size):
     url="http://60.205.137.139/adminweb/REST/API-V2/favoriteConfList?"+urlvalue
     response=urllib.request.urlopen(url)
     s = response.read().decode('utf-8')
-    dic=eval(s)
+    dic=json.loads(s)
     return dic
 
 # 5
@@ -98,7 +98,7 @@ def searchConfList(userid,content,page,page_size):
     url="http://60.205.137.139/adminweb/REST/API-V2/searchConfList?"+urlvalue
     response=urllib.request.urlopen(url)
     s = response.read().decode('utf-8')
-    dic=eval(s)
+    dic=json.loads(s)
     return dic
 
 # 6
@@ -112,9 +112,27 @@ def confDetail(confid):
     url="http://60.205.137.139/adminweb/REST/API-V2/confDetail?"+urlvalue
     response=urllib.request.urlopen(url)
     s = response.read().decode('utf-8')
-    dic=eval(s)
+    dic=json.loads(s)
     return dic
+
+
+
 # 7
+def confInfo(confid):
+    """
+    获取会议详情1
+    :param confid:会议id
+    :return:
+    """
+    urlvalue=urllib.parse.urlencode({"confid":confid})
+    url="http://60.205.137.139/adminweb/REST/API-V2/confInfo?"+urlvalue
+    response=urllib.request.urlopen(url)
+    s = response.read().decode('utf-8')
+    dic=json.loads(s)
+    return dic
+
+
+# 8
 def joinConf(userid,confid,type,code):
     """
     用来跟会佳服务器说有用户要加入某个会议
@@ -130,10 +148,10 @@ def joinConf(userid,confid,type,code):
     request = urllib.request.Request(url,postdata)
     response=urllib.request.urlopen(request)
     s = response.read().decode('utf-8')
-    dic=eval(s)
+    dic=json.loads(s)
     return dic
 
-# 8
+# 9
 def cancelConf(userid,confid):
     """
     用来告诉会佳服务器某个用户想退出某个会议了
@@ -147,5 +165,5 @@ def cancelConf(userid,confid):
     request = urllib.request.Request(url, postdata)
     response = urllib.request.urlopen(request)
     s = response.read().decode('utf-8')
-    dic = eval(s)
+    dic = json.loads(s)
     return dic

@@ -1,0 +1,62 @@
+<!Doctype html>
+<html>
+<head>
+	<title>会议基本信息</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+	<link rel="stylesheet" type="text/css" href="/css/MeetingDetails.css">
+	<link rel="stylesheet" type="text/css" href="/css/global.css">
+</head>
+<body>
+	<div class="pageHead">
+		<font face="Microsoft YaHei" class="textOne" size="4">会议基本信息</font>
+	</div>
+	<div class="image">
+		<img width=100% height="100%" src="{{locals.photo}}">
+	</div>
+	<font face="Microsoft YaHei" class="textTwo" size="3">{{locals.name}}</font>
+	</br>
+	<font face="Microsoft YaHei" class="textTwo" size="3">{{locals.time}}</font>
+	</br>
+	<font face="Microsoft YaHei" class="textTwo" size="3">{{locals.place}}</font>
+	</br>
+	<div class="extraInfo">
+		<font face="Microsoft YaHei" class="textTwo" size="3" >网址：{{locals.web}}</font>
+	</div>
+	<div class="extraInfo">
+		<font face="Microsoft YaHei" class="textTwo" size="3">电话：{{locals.tel}}</font>
+	</div>
+	<div class="extraInfo">
+		<font face="Microsoft YaHei" class="textTwo" size="3">邮箱：{{locals.email}}</font>
+	</div>
+	<div class="content">
+		<font face="Microsoft YaHei" class="textTwo" size="3">{{locals.content}}</font>
+	</div>
+	<div class="operate">
+		<button value="报名参加"></button>
+		<button value="进入会议"></button>
+	</div>
+</body>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="/3rd/jquery-3.1.1.min.js"></script>
+<script src="/js/base.js"></script>
+<script>
+console.log(urlParam);
+var locals;
+api.get("/api/u/conf/detail",{confid: urlParam.confid}, function(data){
+    locals = data;
+    console.log(data);
+},dftFail)
+
+var image = new Vue({
+	el:'.textTwo',
+	data:{
+		locals: locals
+	}
+})
+
+
+</script>
+</html>
