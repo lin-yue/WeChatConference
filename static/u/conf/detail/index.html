@@ -22,7 +22,7 @@
 		{{name}}
 	</div>
 	<div id="time">
-		{{time}}
+		{{time1}} 至 {{time2}}
 	</div>
 	<div id="place">
 		{{place}}
@@ -41,10 +41,12 @@
 		{{content}}
 	</div>
 	<div class="operate">
-		<a href="#"><input type="button" v-if="status == 1" value="进入会议"/></a>
-		<a href="#"><input type="button" v-if="status == 0" value="准备中，暂不开放"/></a>
-		<a href="#"><input type="button" v-if="status == 2" value="报名"/></a>
-		<a href="#"><input type="button" v-if="status == 3" value="会议已结束"/></a>
+		<a href="#"><input type="button" v-if="status == 2" value="进入会议" onclick="inputCode()"/></a>
+		<a href="#"><input type="button" v-if="status == 1" value="准备中，暂不开放"/></a>
+		<a href="#" v-if="private_type == 2"><input type="button" v-if="status == 3" value="报名"/></a>
+		<a href="#" v-if="private_type == 1"><input type="button" v-if="status == 3" value="进入会议" onclick="inputCode()"/></a>
+		<a href="#" v-if="private_type == 0"><input type="button" v-if="status == 3" value="进入会议" /></a>
+		<a href="#"><input type="button" v-if="status == 4" value="会议已结束"/></a>
 	</div>
 </body>
 
@@ -53,6 +55,11 @@
 <script src="/js/base.js"></script>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script>
+
+	function inputCode(){
+		window.open("/u/conf/detail/code.html")
+	}
+
     console.log(urlParam);
     var locals;
     api.get("/api/u/conf/detail",{confid: urlParam.confid}, function(data){
@@ -76,7 +83,8 @@
 	var time = new Vue({
 		el:'#time',
 		data:{
-			time:locals.basic.start_date,
+			time1:locals.basic.start_date,
+			time2:locals.basic.end_date,
 		}
 	})
 
@@ -118,6 +126,7 @@
 		el:'.operate',
 		data:{
 			status:locals.basic.status,
+			private_type:locals.basic.privateType,
 		}
 	})
 

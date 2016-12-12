@@ -25,10 +25,10 @@
 }
 
 .extraInfo{
-	height:30px;
+	height:5%;
 	padding-left: 5%;
 	font-family: Microsoft YaHei;
-	font-size: 90%;
+	font-size: 130%;
 	border-top:1px solid #d0d0d0;
 	border-bottom:1px solid #d0d0d0;
 }
@@ -39,17 +39,17 @@
 }
 
 #name{
-	height:30px;
+	height:5%;
 	padding-left: 5%;
 	font-family: Microsoft YaHei;
-	font-size: 90%;
+	font-size: 150%;
 	font-weight: bold;
 }
 
 #time, #place{
-	height:20px;
+	height:4%;
 	padding-left: 5%;
-	font-size: 90%;
+	font-size: 130%;
 	font-family: Microsoft YaHei;
 }
 
