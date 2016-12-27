@@ -9,7 +9,11 @@ __author__ = "Epsirom"
 
 
 urlpatterns = [
-    url(r'^user/bind/?$', UserBind.as_view()),
     url(r'^conf/detail/?$', ConfDetail.as_view()),
-    url(r'^user/joinconf/?$', JoinConf.as_view()),
+    url(r'^user/signUpConf/?$',SignUpConf.as_view()),
+    url(r'^user/joinConf/?$',JoinConf.as_view()),
+    url(r'^user/cancelConf/$', CancelConf.as_view()),
+    url(r'^conf/confReminds/all/?$',UserConfReminds.as_view()),
+    url(r'^conf/confReminds?$', UserConfRemindsDetail.as_view()),
+
 ]

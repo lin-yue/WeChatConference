@@ -3,11 +3,22 @@ from django.db import models
 from codex.baseerror import LogicError
 import json
 
+CONFERENCELIST_RECENT = 1
+CONFERENCELIST_ALL = 2
+CONFERENCELIST_MY = 3
+CONFERENCELIST_SEARCH = 4
+
 class User(models.Model):
     open_id = models.CharField(max_length=64, unique=True, db_index=True)
-    system_id = models.CharField(max_length=32, unique=True,  null = True)#db_index=True,
-    pageNum = models.IntegerField()
-    pageState = models.IntegerField()
+    userid = models.CharField(max_length=32, unique=True,  null = True)#db_index=True,
+    union_id = models.CharField(max_length=64, unique=True, db_index=True)
+    nickname = models.CharField(max_length=64)
+    headimgurl = models.CharField(max_length=128)
+    pageNum = models.IntegerField(null=True)
+    pageState = models.IntegerField(null=True)
+
+    searchWords = models.CharField(max_length=64,  null = True)
+
     reminds = models.ManyToManyField('Reminds')
 
     @classmethod
@@ -21,12 +32,14 @@ class User(models.Model):
     PAGE_RECENTCONF = 2
     PAGE_MYCONF = 3
     PAGE_SERACHCONF = 4
+    PAGE_NOTLIST = -1
 
 class UserSignUpDetail(models.Model):
     user = models.ForeignKey(User)
+    confid =  models.CharField(max_length=128)
     name = models.CharField(max_length=128)
     sex = models.IntegerField()
-    telphone = models.CharField(max_length=64)
+    telephone = models.CharField(max_length=64)
     email = models.CharField(max_length = 128)
     checked_status = models.IntegerField()
     signup_time = models.DateTimeField()
@@ -50,9 +63,9 @@ class UserSignUpExtendAddress(models.Model):
     COUNTRY_CHINA = 1
     COUNTRY_AMERICA = 2
 
-class UserSignUpExtendMailcode(models.Model):
+class UserSignUpExtendPostcode(models.Model):
     basicInfo = models.OneToOneField(UserSignUpDetail)
-    email_code = models.CharField(max_length=64)
+    postcode = models.CharField(max_length=64)
 
 class UserSignUpExtendCompanyInfo(models.Model):
     basicInfo = models.OneToOneField(UserSignUpDetail)
@@ -60,9 +73,9 @@ class UserSignUpExtendCompanyInfo(models.Model):
     company_address = models.CharField(max_length=128, null=True)   #选填
     company_job = models.CharField(max_length=128)
 
-class UserSignUpExtendAccomodation(models.Model):
+class UserSignUpExtendAccommodation(models.Model):
     basicInfo = models.OneToOneField(UserSignUpDetail)
-    accomodation_type = models.IntegerField()
+    accommodation_type = models.IntegerField()
 
     ACCOMODATION_CHAEAP = 1
     ACCOMODATION_NORMAL = 2
@@ -87,12 +100,12 @@ class UserSignUpExtendCost(models.Model):
 
 class UserSignUpExtendExtraInfo(models.Model):
     basicInfo = models.OneToOneField(UserSignUpDetail)
-    extra_discription = models.CharField(max_length=512)
+    extra_description = models.CharField(max_length=512)
 
 #用于描述每个会议报名时每个可选的价格项
 class PriceInfo(models.Model):
     confid =  models.CharField(max_length=128)
-    price_discription = models.CharField(max_length=512)
+    price_description = models.CharField(max_length=512)
     price_amount = models.IntegerField()
 
 #用于记录会议者选择的模块
@@ -116,13 +129,21 @@ class ChoosedSignUpParts(models.Model):
     PART_ADDRESS = 1
     PART_MAILCODE = 2
     PART_COMPANY = 3
-    PART_ACCOMODATION = 4
+    PART_ACCOMMODATION = 4
     PART_COST = 5
     PART_EXTRAINFO = 6
 
 #会议发布者发布的提醒
 class Reminds(models.Model):
     confid = models.CharField(max_length=128)
-    info = models.CharField(max_length=128)
+    info = models.CharField(max_length=512)
     publish_time = models.DateTimeField()
+
+class Reviews(models.Model):
+    user = models.ForeignKey(User)
+    confid =  models.CharField(max_length=128)
+    detail = models.CharField(max_length=512)
+    publish_time = models.DateTimeField()
+
+
 

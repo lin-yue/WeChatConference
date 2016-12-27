@@ -1,0 +1,270 @@
+<!Doctype html>
+<html>
+<head>
+	<title>用户报名</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--这里是外部css-->
+    <link rel="stylesheet" type="text/css" href="css/signUp.css">
+    <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+
+	<script type="text/javascript"></script>>
+	
+</head>
+<body>
+	<header>
+		<div class="text-center">
+			<h2 id="headOfMust">1.必填信息</h2>
+			<h2 id="headOfChose">2.选填信息</h2>
+			<h2 id="headOfMoney">3.费用处理</h2>
+		</div>
+	</header>
+	<form class="form-horizontal" role="form" name="UserForm">
+		<div id="mustGive">
+			<div class="form-group" >
+				<label for="name" class="col-sm-1 col-md-1 col-lg-1 control-label">姓名</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="name" placeholder="请输入您的姓名" onblur="checkname()">
+				</div>
+			</div>
+			<div class="warning">
+				<p id="warningforname"></p>
+			</div>
+			</br>
+			<div class="form-group">
+				<label class="col-sm-1 col-md-1 col-lg-1 control-label">性别</label>
+				<label class="checkbox-inline">
+				    <input type="radio" name="optionsRadiosinline" id="optionsRadios1" value="option1" checked>男
+				</label>
+				<label class="checkbox-inline">
+					<input type="radio" name="optionsRadiosinline" id="optionsRadios2"  value="option2">女
+				</label>
+			</div>
+			</br>
+			<div class="form-group">
+				<label for="phone" class="col-sm-1 col-md-1 col-lg-1 control-label">手机号码</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="phone"placeholder="请输入您的手机号码，以便联系">
+				</div>
+			</div>
+			</br>
+			<div class="form-group">
+				<label for="email" class="col-sm-1 col-md-1 col-lg-1 control-label">邮箱地址</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="email"placeholder="请输入您的邮箱地址，以便联系">
+				</div>
+			</div>
+			</br>
+		</div>
+		<div id="choseGive">
+			<div v-if="countryIf == 1" class="form-group" id="countryIf">
+				<label for="country" class="col-sm-1 col-md-1 col-lg-1 control-label">国家</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<select>
+						<option>选择您的国家</option>
+					    <option value="China">中国</option>
+					    <option value="USA">美国</option>
+					    <option value="Japan">日本</option>
+					    <option value="Russian">俄罗斯</option>
+					</select>
+				</div>
+			</div>
+			</br>
+			<div v-if="liveplaceIf == 1" class="form-group" id="liveplaceIf">
+				<label for="liveplace" class="col-sm-1 col-md-1 col-lg-1 control-label">详细住址</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="liveplace" placeholder="请输入您的详细住址">
+				</div>
+			</div>
+			</br>
+			<div v-if="mailIf == 1" class="form-group" id="mailIf">
+				<label for="mail" class="col-sm-1 col-md-1 col-lg-1 control-label">邮政编码</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="mail" placeholder="请输入您的邮政编码">
+				</div>
+			</div>
+			</br>
+			<div v-if="companynameIf == 1" class="form-group" id="companynameIf">
+				<label for="companyname" class="col-sm-1 col-md-1 col-lg-1 control-label">单位名称</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="companyname" placeholder="请输入您的工作单位名称">
+				</div>
+			</div>
+			</br>
+			<div v-if="companyplaceIf == 1" class="form-group" id="companyplaceIf">
+				<label for="companyplace" class="col-sm-1 col-md-1 col-lg-1 control-label">单位地址</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="companyplace" placeholder="请输入您的工作单位地址">
+				</div>
+			</div>
+			</br>
+			<div v-if="companydutyIf == 1" class="form-group" id="companydutyIf">
+				<label for="companyduty" class="col-sm-1 col-md-1 col-lg-1 control-label">职务</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="companyduty" placeholder="请输入您在所在单位的职务">
+				</div>
+			</div>
+			</br>
+			<div v-if="wheretoliveIf == 1" class="form-group" id="wheretoliveIf">
+				<label class="col-sm-1 col-md-1 col-lg-1 control-label">理想住宿费用</label>
+				<label class="checkbox-inline">
+				    <input type="radio" name="optionsRadiosinline" id="optionsRadios1" value="option1" checked>0~200 RMB
+				</label>
+				<label class="checkbox-inline">
+					<input type="radio" name="optionsRadiosinline" id="optionsRadios2"  value="option2">200~400 RMB
+				</label>
+				<label class="checkbox-inline">
+					<input type="radio" name="optionsRadiosinline" id="optionsRadios3"  value="option3">400~600 RMB
+				</label>
+				<label class="checkbox-inline">
+					<input type="radio" name="optionsRadiosinline" id="optionsRadios4"  value="option4">600 RMB 以上
+				</label>
+			</div>
+		</div>
+		<div id="feeGive">
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped" id="moneylist">
+					<thead>
+						<th>收费项目</th>
+						<th>具体费用</th>
+						<th>选择（可多选）</th>
+					</thead>
+					<tbody>
+						<tr v-for="projectForMoney in projects">
+							<td class="list1">{{projectForMoney.name}}</td>
+							<td v-bind:id="projectForMoney.id" class="list2">{{projectForMoney.money}} RMB</td>
+							<td class="list3"><input type="checkbox" v-on:click="showWholeMoney(projectForMoney.money)"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div>
+				<p id="moneyTitle">总费用</p>
+				<input type="text" value="0" id="wholeMoney">
+			</div>
+		</div>
+	</form>
+	<button type="button" id="nextstep1" class="btn btn-primary col-xs-4 col-xs-push-4 col-sm-1 col-sm-push-5 col-md-1 col-md-push-5 col-lg-4 col-lg-push-4" onclick="changeToSecondNext()">下一步</button>
+	<button type="button" id="beforestep1" class="btn btn-primary col-xs-3 col-xs-push-2 col-sm-1 col-sm-push-3 col-md-1 col-md-push-3 col-lg-1 col-lg-push-4" onclick="changeToFirstBefore()">上一步</button>
+	<button type="button" id="nextstep2" class="btn btn-primary col-xs-3 col-xs-push-4 col-sm-1 col-sm-push-6 col-md-1 col-md-push-6 col-lg-1 col-lg-push-6" onclick="changeToThirdNext()">下一步</button>
+	<button type="button" id="beforestep2" class="btn btn-primary col-xs-3 col-xs-push-2 col-sm-1 col-sm-push-3 col-md-1 col-md-push-3 col-lg-1 col-lg-push-4" onclick="changeToSecondBefore()">上一步</button>
+	<button type="button" id="nextstep3" class="btn btn-primary col-xs-3 col-xs-push-4 col-sm-1 col-sm-push-6 col-md-1 col-md-push-6 col-lg-1 col-lg-push-6" onclick="changeToThirdNext()">报名交费</button>
+</body>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script>
+	var countryIf = new Vue({
+		el:'#countryIf',
+		data:{
+			countryIf:1,
+		}
+	});
+	var mailIf= new Vue({
+		el:'#mailIf',
+		data:{
+			mailIf:1,
+		}
+	});
+	var liveplace = new Vue({
+		el:'#liveplaceIf',
+		data:{
+			liveplaceIf:1,
+		}
+	});
+	var companynameIf = new Vue({
+		el:'#companynameIf',
+		data:{
+			companynameIf:1,
+		}
+	});
+	var companyplaceIf = new Vue({
+		el:'#companyplaceIf',
+		data:{
+			companyplaceIf:1,
+		}
+	});
+	var companydutyIf = new Vue({
+		el:'#companydutyIf',
+		data:{
+			companydutyIf:1,
+		}
+	});
+	var liveplaceIf = new Vue({
+		el:'#liveplaceIf',
+		data:{
+			liveplaceIf:1,
+		}
+	});
+	var feeGive = new Vue({
+		el:'#feeGive',
+		data:{
+			projects:[
+				{name:'吃',money:'13',id:'1'},{name:'喝',money:'31',id:'2'},
+			]
+		}
+	})
+</script>
+<script type="text/javascript">
+
+    var x = document.getElementById("wholeMoney");
+	function showWholeMoney(z){
+		var y = parseInt(x.value);
+		y = y + parseInt(z);
+		x.value = y;
+	}
+
+	function changeToSecondNext(){
+		document.getElementById("mustGive").style.display = "none";
+		document.getElementById("headOfMust").style.display = "none";
+		document.getElementById("headOfChose").style.display = "block";
+		document.getElementById("choseGive").style.display = "block";
+		document.getElementById("nextstep1").style.display = "none";
+		document.getElementById("nextstep2").style.display = "block";
+		document.getElementById("beforestep1").style.display = "block";
+	}
+
+	function changeToFirstBefore(){
+		document.getElementById("mustGive").style.display = "block";
+		document.getElementById("headOfMust").style.display = "block";
+		document.getElementById("headOfChose").style.display = "none";
+		document.getElementById("choseGive").style.display = "none";
+		document.getElementById("nextstep1").style.display = "block";
+		document.getElementById("nextstep2").style.display = "none";
+		document.getElementById("beforestep1").style.display = "none";
+	}
+
+	function changeToThirdNext(){
+		document.getElementById("feeGive").style.display = "block";
+		document.getElementById("headOfMoney").style.display = "block";
+		document.getElementById("mustGive").style.display = "none";
+		document.getElementById("headOfMust").style.display = "none";
+		document.getElementById("headOfChose").style.display = "none";
+		document.getElementById("choseGive").style.display = "none";
+		document.getElementById("nextstep1").style.display = "none";
+		document.getElementById("nextstep2").style.display = "none";
+		document.getElementById("beforestep1").style.display = "none";
+		document.getElementById("beforestep2").style.display = "block";
+		document.getElementById("nextstep3").style.display = "block";
+		document.getElementById("feeGive").style.display = "block";
+	}
+
+	function changeToSecondBefore(){
+		document.getElementById("feeGive").style.display = "none";
+		document.getElementById("headOfMoney").style.display = "none";
+		document.getElementById("mustGive").style.display = "none";
+		document.getElementById("headOfMust").style.display = "none";
+		document.getElementById("headOfChose").style.display = "block";
+		document.getElementById("choseGive").style.display = "block";
+		document.getElementById("nextstep2").style.display = "block";
+		document.getElementById("beforestep1").style.display = "block";
+		document.getElementById("beforestep2").style.display = "none";
+		document.getElementById("nextstep3").style.display = "none";
+		document.getElementById("feeGive").style.display = "none";	
+	}
+</script>
+</html>

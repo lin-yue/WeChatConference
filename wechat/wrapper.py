@@ -6,14 +6,15 @@ import json
 import logging
 import urllib.request
 import xml.etree.ElementTree as ET
-from WeChatTicket.settings import WECHAT_TOKEN, WECHAT_APPID, WECHAT_SECRET
+from WeChatTicket.settings import WECHAT_TOKEN, WECHAT_APPID, WECHAT_SECRET, SITE_DOMAIN
 
 from django.http import Http404, HttpResponse
 from django.template.loader import get_template
 
 from WeChatTicket import settings
 from codex.baseview import BaseView
-from wechat.models import User
+from wechat.models import *
+from wechat.backInterface import myAllConfs
 
 
 __author__ = "Epsirom"
@@ -89,9 +90,141 @@ class WeChatHandler(object):
     def url_bind(self):
         return settings.get_url('u/bind', {'openid': self.user.open_id})
 
-    def url_confDetail(self, confid):
-        return settings.get_url('u/conf/detail', {'confid': confid})
+    def url_confDetail(self, confid, userid):
+        return settings.get_url('u/conf/detail', {'confid': confid, 'userid':userid})
 
+    def url_image(self, imageName):
+        return SITE_DOMAIN + "/img/" + imageName
+
+        #添加会议列表表尾，confList为添加到的列表， list为待判断的输入列表，totalRecords为总记录数,pageNum为当前页数
+    def judgeConfBelongAndSetUrl(self, confid):
+        confs = myAllConfs(self.user.userid)
+        for conf in confs:
+            if confid == conf['id']:
+                return "http://m2.huiplus.com.cn/app/#/confinfo/" + str(confid)
+
+        return self.url_confDetail(confid, self.user.userid)
+
+
+
+    def addPagesFooter(self, confList, list, totalRecords,pageNum):
+
+
+        if len(list) <= 8 and totalRecords <= 8:
+            confList.append({
+                'Title': "*共1页(" + str(totalRecords) + "条)记录*",
+                # 'Description': tickets[tic].activity.description,
+                'PicUrl': self.url_image("rabit2.png"),
+                'Url': "",
+            })
+        elif len(list) <= 8:
+            confList.append({
+                'Title': "*最后一页* 向上滑动可查看之前内容",
+                # 'Description': tickets[tic].activity.description,
+                'PicUrl': self.url_image("rabit2.png"),
+                'Url': "",
+            })
+        else:
+            confList.append({
+                'Title': "*第" + str(pageNum) + "页* 输入‘next’查看下一页",
+                # 'Description': tickets[tic].activity.description,
+                'PicUrl': self.url_image("rabit1.png"),
+                'Url': "",
+            })
+        return confList
+
+    def showInitialPageAndUpdateUserState(self, list1, totalRecords, conferenceType, searchContent):
+
+        content = ""
+        if(conferenceType == CONFERENCELIST_RECENT):
+            self.user.pageState = self.user.PAGE_RECENTCONF;
+        elif (conferenceType == CONFERENCELIST_ALL):
+            self.user.pageState = self.user.PAGE_ALLCONF;
+        elif (conferenceType == CONFERENCELIST_MY):
+            self.user.pageState = self.user.PAGE_MYCONF;
+        elif (conferenceType == CONFERENCELIST_SEARCH):
+            self.user.pageState = self.user.PAGE_SERACHCONF;
+            self.user.searchWords = searchContent
+        self.user.pageNum = 1
+        self.user.save()
+
+
+        confList = []
+        if conferenceType != CONFERENCELIST_SEARCH:
+            confList.append({
+                'Title': "**共有"+str(totalRecords)+"个会议**",
+                # 'Description': tickets[tic].activity.description,
+                'PicUrl': self.url_image("rabit1.png"),
+                'Url': "",
+            })
+        else:
+            confList.append({
+                'Title': "含"+self.user.searchWords+"的会议结果（共"+str(totalRecords)+"个）",
+                # 'Description': tickets[tic].activity.description,
+                'PicUrl': self.url_image("rabit1.png"),
+                'Url': "",
+            })
+        print(list1[:8])
+        for conf in list1[:8]:
+            urlTempt = self.judgeConfBelongAndSetUrl(conf['id'])
+            confList.append({
+                'Title': conf['name'],
+                # 'Description': tickets[tic].activity.description,
+                'PicUrl': "http://60.205.137.139/adminweb/" + conf['image'],
+                'Url': urlTempt,
+            })
+        print(urlTempt)
+
+        self.addPagesFooter(confList, list1, totalRecords, 1)
+
+        return self.reply_news(confList)
+
+
+    # list1会议列表1（原页), 会议列表2（新页)，pageNum(第几页) ，如“当前会议” totalRecords 全部会议, conferenceType 会议类型
+
+    def showPagesAndUpdateUserState(self, list1, list2, pageNum, totalRecords, conferenceType):
+
+        content = ""
+        if (conferenceType == CONFERENCELIST_RECENT):
+            content = "近期会议"
+        elif (conferenceType == CONFERENCELIST_ALL):
+            content = "全部会议"
+        elif (conferenceType == CONFERENCELIST_MY):
+            content = "我的会议"
+        elif (conferenceType == CONFERENCELIST_SEARCH):
+            content = "搜索会议"
+
+        if len(list1) <= 8 and totalRecords <= 8:
+            return self.reply_text("目前" + content + "列表中只有1页内容~")
+        elif len(list1) <= 8:
+            return self.reply_text("当前已为最后一页，请向上滑动查看之前各页内容，或点击菜单中‘" + content + "’重新查看" + content + "列表~")
+        else:
+            confList = []
+            print(list1[-1])
+            urlTempt = self.judgeConfBelongAndSetUrl(list[-1]['id'])
+            confList.append({
+                    'Title': list1[-1]['name'],
+                    # 'Description': tickets[tic].activity.description,
+                    'PicUrl': "http://60.205.137.139/adminweb/" + list1[-1]['image'],
+                    'Url': urlTempt,
+                })
+            print(list2[:8])
+            for conf in list2[:8]:
+                urlTempt = self.judgeConfBelongAndSetUrl(conf['id'])
+                confList.append({
+                    'Title': conf['name'],
+                    # 'Description': tickets[tic].activity.description,
+                    'PicUrl': "http://60.205.137.139/adminweb/" + conf['image'],
+                    'Url': urlTempt,
+                })
+            self.addPagesFooter(confList, list2, totalRecords, pageNum)
+            self.user.pageNum = pageNum
+            self.user.save()
+            return self.reply_news(confList)
+
+    def changePageUserState(self):
+        self.user.pageState = User.PAGE_NOTLIST
+        self.user.save()
 
 class WeChatEmptyHandler(WeChatHandler):
 
@@ -170,6 +303,7 @@ class WeChatLib(object):
             cls.logger.info('Got access token %s', cls.access_token)
         return cls.access_token
 
+
     def get_wechat_menu(self):
         res = self._http_get(
             'https://api.weixin.qq.com/cgi-bin/menu/get?access_token=%s' % (
@@ -178,6 +312,18 @@ class WeChatLib(object):
         )
         rjson = json.loads(res)
         return rjson.get('menu', {}).get('button', [])
+
+    @classmethod
+    def getUnionId(cls, openId):
+
+        url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN" % (
+            cls.get_wechat_access_token(), openId)
+        # print (url)
+        response = urllib.request.urlopen(url)
+        s = response.read().decode("utf-8")
+        dic = json.loads(s)
+        return dic
+        # https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
 
     def set_wechat_menu(self, data):
         res = self._http_post_dict(
@@ -188,6 +334,7 @@ class WeChatLib(object):
         rjson = json.loads(res)
         if rjson.get('errcode'):
             raise WeChatError(rjson['errcode'], rjson['errmsg'])
+
 
 
 class WeChatView(BaseView):

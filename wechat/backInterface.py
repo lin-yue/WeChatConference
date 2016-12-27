@@ -167,3 +167,19 @@ def cancelConf(userid,confid):
     s = response.read().decode('utf-8')
     dic = json.loads(s)
     return dic
+
+def myAllConfs(userid):
+    confList = []
+    totalCount = 0
+    pageNum = 1
+    result =  favoriteConfList(userid, pageNum, 20)
+    totalCount = int(result['total_size'])
+    confList += result['data']
+    while pageNum * 20 < totalCount:
+        pageNum += 1
+        result = favoriteConfList(userid, pageNum, 20)
+        confList += result['data']
+    print(confList)
+    return confList
+
+

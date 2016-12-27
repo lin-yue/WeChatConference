@@ -10,7 +10,7 @@ class CustomWeChatView(WeChatView):
     lib = WeChatLib(WECHAT_TOKEN, WECHAT_APPID, WECHAT_SECRET)
 
     handlers = [
-        recentConferenceHandler,allConferenceHandler,myConferenceHandler,SubscribeHandler,
+        recentConferenceHandler,allConferenceHandler,myConferenceHandler,SubscribeHandler,NextPageHandler, SearchWaysHandler, SearchConfHandler
     ]
     error_message_handler = ErrorHandler
     default_handler = DefaultHandler

@@ -1,0 +1,74 @@
+<!Doctype html>
+<html>
+<head>
+	<title>会议基本信息</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+	<link rel="stylesheet" type="text/css" href="/css/test.css">
+	<link rel="stylesheet" type="text/css" href="/3rd/bootstrap-3.3.7-dist/css/bootstrap.min.css" >
+</head>
+<body>
+<script src="/3rd/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="/3rd/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<div id="test1">
+		hi
+	</div>
+	<div id="test2">
+		hi1
+	</div>
+	
+	
+</body>
+
+<script type="text/javascript">
+
+	var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+	function preventScroll()
+	{
+		$(window).on("touchmove",function(event){
+		 	event.preventDefault();
+		 })
+		$(window).on("mousewheel",function(event){
+		 	event.preventDefault();
+		 })
+		$(window).on("keydown",function(event){
+		 	if(keys[event.keyCode])
+		 	{
+		 		event.preventDefault();
+		 	}
+		 })
+	}
+
+	function restoreScroll()
+	{
+		$(window).off("touchmove");
+		$(window).off("mousewheel");
+		$(window).off("keydown");
+	}
+
+	function resetHeightAndWidth()
+	{
+		console.log($("#test1").css("height"));
+
+
+	}
+
+	$(function(){
+
+		preventScroll();
+		resetHeightAndWidth();
+
+		    })
+
+	
+
+
+	
+
+
+	// })
+</script>
+</html>

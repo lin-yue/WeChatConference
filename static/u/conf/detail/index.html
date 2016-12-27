@@ -15,7 +15,7 @@
 	</div>
 	
 	<div class="image">
-		<img v-bind:src="image"/>
+		<img v-bind:src="image" height="100%"/>
 	</div>
     </br>
 	<div id="name">
@@ -37,16 +37,33 @@
 	<div class="extraInfo" id="email">
 		邮箱：{{email}}
 	</div>
-	<div id="content">
+	<div id="content" v-html="content">
 		{{content}}
 	</div>
 	<div class="operate">
-		<a href="#"><input type="button" v-if="status == 2" value="进入会议" onclick="inputCode()"/></a>
-		<a href="#"><input type="button" v-if="status == 1" value="准备中，暂不开放"/></a>
-		<a href="#" v-if="private_type == 2"><input type="button" v-if="status == 3" value="报名"/></a>
-		<a href="#" v-if="private_type == 1"><input type="button" v-if="status == 3" value="进入会议" onclick="inputCode()"/></a>
-		<a href="#" v-if="private_type == 0"><input type="button" v-if="status == 3" value="进入会议" /></a>
-		<a href="#"><input type="button" v-if="status == 4" value="会议已结束"/></a>
+		<input type="button"  v-if="status == 2" class="operateInput" value="进入会议"  onclick="inputCode1()"/> 
+		<input type="button"   v-if="status == 1" class="operateInput" value="准备中，暂不开放"/>
+		<input v-if="status == 3 && private_type == 2" class="operateInput" type="button"  value="报名" onclick="toLogin()"/>
+		<input v-if="status == 3 && private_type == 1" class="operateInput" type="button"  value="进入会议" onclick="inputCode()"/>
+		<input v-if="status == 3 && private_type == 0" class="operateInput" type="button"  value="进入会议" onclick="toDetail()"//>
+		<input v-if="status == 4" class="operateInput" type="button"  value="会议已结束"/>
+	</div>
+	<div id="dialogBackground">
+		<div id = "dialogLayer">
+			<div id = "dialogMain">
+				<div id ="dialogText">
+		    		<p id="textInside">请输入您的验证码:</p>
+		    	</div>
+				<div id ="dialogPrompt">
+					<input id="toInput" type="password" name="name" placeholder="code" />
+					<p id="promptError">输入的验证码错误，请重新输入</p>
+				</div>
+				<div id ="dialogBar">
+					<span class= "dialogButton" id="dialogButton1">进入</span>
+					<span class= "dialogButton" id="dialogButton2">取消</span>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 
@@ -55,16 +72,41 @@
 <script src="/js/base.js"></script>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script>
-
-	function inputCode(){
-		window.open("/u/conf/detail/code.html")
-	}
-
-    console.log(urlParam);
+    
     var locals;
+    var theCode = null
+    var oldScroll = 0;
+
+    function toLogin(){
+    	window.open("/u/user/signUpConf/index.html", "_self");
+    }
+
+    function toDetail(){
+    	var result;
+    	api.post("/api/u/user/joinConf",{confid: urlParam.confid, userid: urlParam.userid, type:locals.basic.privateType, code:theCode}, function(data){
+
+			result = data;
+
+			if(result.code != 0)
+			{
+				console.log("internal error for no code joinConf");
+			}
+
+			window.open(("http://m2.huiplus.com.cn/app/#/confinfo/" + String(urlParam.confid)), "_self");
+
+
+    		}, dftFail)
+    	
+    }
+
+
+
     api.get("/api/u/conf/detail",{confid: urlParam.confid}, function(data){
         locals = data;
-    	console.log(data);
+    	if(locals.basic.status == 2)
+    	{
+    		locals.basic.privateType = 1;
+    	}
 
     	var name = new Vue({
 		el:'#name',
@@ -131,6 +173,119 @@
 	})
 
 	},dftFail)
+
+	function inputCode(){
+		    setFixHeight();
+		 	preventScroll();
+		 	$("#promptError").css("display", "none");
+		 	$("#dialogBackground").css("display", "block");
+		 }
+ 	
+ 	function inputCode1(){
+ 			setFixHeight();
+		 	preventScroll();
+		 	$("#promptError").css("display", "none");
+		 	$("#textInside").text("该会议正在进行内部测试，请输入您的验证码进入或稍后再试：");
+		 	$("#dialogBackground").css("display", "block");
+		 }
+
+	var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+	function preventScroll()
+	{
+		$(window).on("touchmove",function(event){
+		 	event.preventDefault();
+		 })
+		$(window).on("mousewheel",function(event){
+		 	event.preventDefault();
+		 })
+		$(window).on("keydown",function(event){
+		 	if(keys[event.keyCode])
+		 	{
+		 	 	event.preventDefault();
+		 	}
+		 	document.documentElement.scrollTop = oldScroll;
+		 	document.body.scrollTop = oldScroll;
+		 })
+		$("#toInput").on("keydown",function(event){
+			if(oldScroll == 0){
+				oldScroll = document.documentElement.scrollTop || document.body.scrollTop;
+			}
+
+		 })
+	}
+
+	function restoreScroll()
+	{
+		$(window).off("touchmove");
+		$(window).off("mousewheel");
+		$(window).off("keydown");
+	}
+
+	function setFixHeight()
+	{
+		var tempt;
+		tempt = $(".image").css("height");
+		$(".image").css("height", tempt);
+		tempt = $("#name").css("height");
+		$("#name").css("height", tempt);
+		tempt = $("#time").css("height");
+		$("#time").css("height", tempt);
+		tempt = $("#place").css("height");
+		$("#place").css("height", tempt);
+		    
+		tempt = $(".extraInfo").css("height");
+		$(".extraInfo").css("height", tempt);
+		tempt = $(".operate").css("height");
+		$(".operate").css("height", tempt);
+	}
+
+	function validate(){
+
+
+		theCode = $("#toInput").val();
+
+		if(theCode == "")
+		{
+			$("#promptError").css("display", "block");
+			$("#promptError").text("输入的验证码不能为空");
+			return;			
+		}
+		var result;
+		api.post("/api/u/user/joinConf",{confid: urlParam.confid, userid: urlParam.userid, type:locals.basic.privateType, code:theCode}, function(data){
+
+			result = data;
+
+			console.log(result.code);
+			if(result.code != 0)
+			{
+				$("#promptError").css("display", "block");
+				$("#promptError").text("输入的验证码错误，请重新输入");
+			}
+			else
+			{
+				window.open(("http://m2.huiplus.com.cn/app/#/confinfo/" + String(urlParam.confid)), "_self");
+			
+			}
+
+    		}, dftFail)
+		
+	}
+
+
+	$(function(){
+		//setFixHeight();
+		$("#dialogButton1").on("click",validate);
+		$("#dialogButton2").on("click",function(){
+		 	restoreScroll();
+		 	$("#dialogBackground").css("display", "none");
+		 	$("#toInput").val("");
+		 })
+	})
+
+
+
+
 
 </script>
 </html>

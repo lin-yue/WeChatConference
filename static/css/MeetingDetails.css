@@ -1,3 +1,4 @@
+
 .pageHead{
 	height:50px;
 	width:100%;
@@ -26,21 +27,22 @@
 
 .extraInfo{
 	height:5%;
-	padding-left: 5%;
+	padding-left: 3%;
 	font-family: Microsoft YaHei;
 	font-size: 130%;
 	border-top:1px solid #d0d0d0;
 	border-bottom:1px solid #d0d0d0;
 }
 
-.content{
+#content{
 	font-family: Microsoft YaHei;
-	padding-left:5%;	
+	padding-left:3%;
+	padding-top: 1px;	
 }
 
 #name{
 	height:5%;
-	padding-left: 5%;
+	padding-left: 3%;
 	font-family: Microsoft YaHei;
 	font-size: 150%;
 	font-weight: bold;
@@ -48,7 +50,7 @@
 
 #time, #place{
 	height:4%;
-	padding-left: 5%;
+	padding-left: 3%;
 	font-size: 130%;
 	font-family: Microsoft YaHei;
 }
@@ -61,7 +63,8 @@
 	padding-top: 10%;
 }
 
-input {
+.operateInput {
+
 	background: #1E90FF;
 	border: none;
 	padding: 10px 25px 10px 25px;
@@ -71,3 +74,149 @@ input {
 	text-shadow: 1px 1px 1px #9E3F3F;
 	cursor: pointer;
 }
+
+
+#dialogBackground{
+	display: none;
+	position: fixed;
+	left: 0%;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+}
+
+#dialogLayer{
+	display: block;
+	position: fixed;
+	left: 0%;
+	top: 26%;
+	width: 100%;
+
+}
+
+
+#dialogMain{
+	display: block;
+	//position: absolute;
+	//left: 10%;
+	//top: 30%;
+	width:260px;
+	margin:0 auto;
+
+	//height:45%;
+	border-radius: 6px;
+	background-color: #eef;
+}
+
+#dialogText{
+	width:100%;
+	//height:25px;
+	padding: 30px 0px 5px 0px;
+	text-align: center;
+	font-family: Microsoft YaHei;
+	font-size: 130%;
+}
+
+#textInside{
+	//position:absolute;
+	//bottom: 0%;
+	line-height:25px;
+	//width:100%;
+	padding: 0px 12px 5px 12px;
+	cursor: default;
+}
+
+#dialogPrompt{
+	//position: absolute;
+	//left: 0%;
+	//top: 20%;
+	padding: 0px 0px 10px 0px;
+	width:100%;
+	//height:30px;
+	margin: 0 0;
+	text-align: center;
+	font-family: Microsoft YaHei;
+	font-size: 130%;
+	margin: 2px 6px 16px 0px;
+
+}
+
+#promptError{
+	display:none;
+	padding: 3px 12px 2px 12px;
+	text-align: center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 80%;
+	color:rgb(255,0,0);
+}
+
+#dialogBar{
+	//position: absolute;
+	//left: 0%;
+	//top: 60%;
+	padding: 0px 0px 12px 0px;
+	width:100%;
+	height:30px;
+	margin:0 auto;
+	text-align: center;
+}
+
+#toInput{
+	color: #000;
+	width: 80%;
+	height: 30px;
+	border: 1px solid #C5E2FF;
+	padding: 0px 0px 0px 0px;
+	background: #FBFBFB;
+	outline: 0;
+	-webkit-box-shadow:inset 0px 1px 6px #ECF3F5;
+	box-shadow: inset 0px 1px 6px #ECF3F5;
+	font: 200 12px/25px Arial, Helvetica, sans-serif;
+	line-height:15px;
+	
+}
+
+.dialogButton:link{
+	display: inline-block;
+	background-color: #eef;
+	border:0px;
+	padding:2px 6px;
+	font-size: 110%;
+	font-family:Arial, Helvetica, sans-serif;
+	color: #000;
+	//text-shadow: none;
+	//font-weight: 700;
+}
+
+.dialogButton:visited{
+	display: inline-block;
+	background-color: #eef;
+	border:0px;
+	padding:2px 6px;
+	font-size: 110%;
+	font-family:Arial, Helvetica, sans-serif;
+	color: #000;
+	//text-shadow: none;
+	//font-weight: 700;
+}
+
+.dialogButton:hover{
+	color:#0080FF;
+	border: 0px;
+	cursor: default;
+
+}
+
+#dialogButton2{
+	margin:3px auto 3px 20px;
+	text-shadow: none;
+
+}
+
+#dialogButton1{
+	margin:3px 20px 3px auto;
+	text-shadow: none;
+	
+}
+
+

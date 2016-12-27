@@ -1,0 +1,25 @@
+#choseGive{
+	display:none;
+}
+
+#headOfChose, #headOfMoney{
+	display: none;
+}
+
+#beforestep1, #nextstep2, #beforestep2, #nextstep3, #feeGive{
+	display:none;
+}
+
+table{
+	width:80%;
+}
+
+.list1{
+	width:55%;
+}
+.list2{
+	width:35%;
+}
+.list3{
+	width:10%;
+}
