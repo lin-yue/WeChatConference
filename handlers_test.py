@@ -35,7 +35,7 @@ class SubscribeHandler_test(TestCase):
 
 
     def test_this_handle(self):
-        test = User.objects.create(open_id="oTMknweRbhOWpnAUQYTKgcfnQe4g")
+        test = User.objects.create(open_id="ophyUwgM0HfqOQvIdH6cqwa-PntE")
         test.save()
         self.user = test
 
@@ -60,6 +60,7 @@ class SearchConfHandler_test(TestCase):
 
         handler = SearchConfHandler(self.view, self.input, self.user)
         print(handler.handle())
+
 class SearchWaysHandler_test(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -68,7 +69,7 @@ class SearchWaysHandler_test(TestCase):
         cls.view.event_keys = CustomWeChatView.event_keys
 
     def test_this_handle(self):
-        test = User().objects.create(
+        test = User.objects.create(
         open_id = "t",
         union_id = 'e',
         nickname ='s',

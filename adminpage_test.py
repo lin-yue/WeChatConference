@@ -1,4 +1,3 @@
-
 from django.test import TestCase
 import adminpage.urls
 from django.http import HttpRequest
@@ -10,7 +9,6 @@ from adminpage.views import *
 from datetime import datetime
 from django.utils import timezone
 from django.utils.dateformat import format
-from django.contrib.auth.models import User as DjangoUser
 from WeChatTicket.settings import WECHAT_TOKEN, WECHAT_APPID, WECHAT_SECRET, SITE_DOMAIN
 from wechat.wrapper import WeChatLib
 from wechat.views import CustomWeChatView
@@ -25,13 +23,15 @@ class ConfSignUpMoudle_test(TestCase):
 
         theParts = ChoosedSignUpParts()
         theParts.confid = 222
-        theParts.setSignUpParts([1,2,3,4,5,6,7])
+        theParts.maxJoinNum =1000
+        theParts.setSignUpParts([1, 2, 3, 4, 5, 6])
         theParts.save()
+
 
     def test_this_get(self):
         response = self.client.get("/api/a/conf/signUpMoudle", {"confid":"222"})
         #print(response.json())
-        self.assertEqual(response.json()['data']['moduleList'], [1,2,3,4,5,6,7])
+        self.assertEqual(response.json()['data']['moduleList'], [1,2,3,4,5,6])
 
     #def test_this_post(self):
         #response = self.client.post("/api/a/conf/signUpMoudle", {"confid":"222222","moduleList":["1","2","3","4","5"]})
@@ -42,15 +42,22 @@ class PriceMoudle_test(TestCase):
     @classmethod
     def setUpClass(cls):
         super(PriceMoudle_test, cls).setUpClass()
+        theParts = ChoosedSignUpParts()
+        theParts.confid = 3
+        theParts.maxJoinNum = 1000
+        theParts.setSignUpParts([1, 2, 3, 4, 5, 6])
+        theParts.save()
 
     def test_this_post(self):
         response = self.client.post("/api/a/conf/postFee", {"confid":"3","price_description":"保护费","price_amount":123})
         print(response.json())
 
+
 class ConfMembers_test(TestCase):
     @classmethod
     def setUpClass(cls):
         super(ConfMembers_test, cls).setUpClass()
+
         test = User()
         test.open_id = "t"
         test.union_id = 'e'
@@ -61,6 +68,7 @@ class ConfMembers_test(TestCase):
         test.searchWords = 'i'
         test.userid = '1'
         test.save()
+
         test = User()
         test.open_id = "tt"
         test.union_id = 'ee'
@@ -71,9 +79,10 @@ class ConfMembers_test(TestCase):
         test.searchWords = 'i'
         test.userid = '2'
         test.save()
+
         userinfo = UserSignUpDetail()
         userinfo.user = User.objects.get(userid = '1')
-        userinfo.confid = '22'
+        userinfo.confid = '10'
         userinfo.sex = 1
         userinfo.name ="cc"
         userinfo.telephone = "1"
@@ -81,9 +90,10 @@ class ConfMembers_test(TestCase):
         userinfo.checked_status =1
         userinfo.signup_time = '2017-1-1 0:0:0'
         userinfo.save()
+
         userinfo = UserSignUpDetail()
         userinfo.user = User.objects.get(userid='2')
-        userinfo.confid = '22'
+        userinfo.confid = '10'
         userinfo.sex = 1
         userinfo.name = "cc"
         userinfo.telephone = "1"
@@ -93,12 +103,12 @@ class ConfMembers_test(TestCase):
         userinfo.save()
 
     def test_this_get(self):
-        response = self.client.get("/api/a/conf/confMembers", {"confid": "22"})
+        response = self.client.get("/api/a/conf/confMembers", {"confid": "10"})
         print(response.json())
 
 
     def test_this_post(self):
-        response = self.client.post("/api/a/conf/confMembers", {"confid": "22", "personList":[1] })
+        response = self.client.post("/api/a/conf/confMembers", {"confid": "10", "personList":[1,2] })
         print(response.json())
 
 
@@ -106,16 +116,17 @@ class ConfReminds_test(TestCase):
     @classmethod
     def setUpClass(cls):
         super(ConfReminds_test, cls).setUpClass()
-        remind1 = Reminds.objects.create(confid="3", info="fuck you.", publish_time="2018-1-1 0:0:0")
-        remind2 = Reminds.objects.create(confid="3", info="fuck you!", publish_time="2018-1-1 0:0:1")
+        remind1 = Reminds.objects.create(confid="3", info="you.", publish_time="2018-1-1 0:0:0")
+        remind2 = Reminds.objects.create(confid="3", info="you!", publish_time="2018-1-1 0:0:1")
         remind1.save()
-        remind1.save()
+        remind2.save()
     def test_this_get(self):
         response = self.client.get("/api/a/conf/confReminds", {"confid": "3"})
         print(response.json())
     def test_this_post(self):
         response = self.client.post("/api/a/conf/confReminds", {"confid": "3","remind":"uuuu"})
         print(response.json())
+
 
 class ConfMemberDetail_test(TestCase):
     @classmethod
@@ -126,8 +137,10 @@ class ConfMemberDetail_test(TestCase):
         userinfo = UserSignUpDetail.objects.create(confid='1',user=user, sex = 0,checked_status=1,signup_time='2020-1-1 1:1:1')
         userinfo.save()
         moduleList = ChoosedSignUpParts()
+
         moduleList.confid='1'
         moduleList.setSignUpParts([1,2,3,4,5,6])
+        moduleList.maxJoinNum =1000
         moduleList.save()
         priceinfo1=PriceInfo.objects.create(confid='1',price_description='fuck',price_amount=1111)
         priceinfo1.save()
