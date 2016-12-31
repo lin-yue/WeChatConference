@@ -38,3 +38,19 @@ class InterfaceError(BaseError):
 
     def __init__(self, msg):
         super(InterfaceError, self).__init__(4, msg)
+
+class ModuleListIsNullError(BaseError):
+    def __init__(self, msg):
+        super(ModuleListIsNullError, self).__init__(5, msg)
+
+class SignedUpError(BaseError):
+    def __init__(self, msg):
+        super(SignedUpError, self).__init__(6, msg)
+
+class LoginError(BaseError):
+    def __init__(self, msg):
+        super(LoginError, self).__init__(7, msg)
+
+class LogoutError(BaseError):
+    def __init__(self, msg):
+        super(LogoutError, self).__init__(8, msg)

@@ -1,0 +1,126 @@
+
+body{
+	min-height: 100%;
+	background-color:#eee;
+    font-size:14px;
+}
+#headtitle {
+	font-size: 130%;
+	font-weight: bold;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    line-height:50px;
+    color:#ffffff;
+    background-color: #0080FF;
+
+}
+
+
+table{
+    width:80%;
+}
+
+.list1{
+    width:5%;
+    overflow: hidden;
+    text-align: center;
+}
+
+.list2{
+    width:15%;
+    overflow: hidden;
+    font-family:arial;
+    text-align: center;
+}
+
+.list3{
+    width:80%;
+    overflow: hidden;
+    font-family:arial; 
+    padding:8px 20px;  
+}
+.table>tbody>tr>td.list3
+{
+    padding:8px 20px;
+    white-space: normal;
+}
+th{
+    text-align: center;
+}
+.container{
+    padding-top: 10px;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    vertical-align: middle;
+
+}
+
+#remindTable{
+    margin-bottom: 30px;
+}
+
+.hline{
+    color:#000;
+}
+
+.nav-pills{
+    padding-top: 5px;
+    padding-bottom: 10px;
+    font-size: 130%;
+    color:#666;
+    font-style: italic;
+}
+
+.forPadding{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left:4px;
+    font-size: 130%;
+    color:#666;
+    font-style: italic;
+}
+.nav-pills>li{
+    padding: 10px 15px;
+    border-radius: 4px;
+
+}
+.nav-pills>li.active{
+    color: #fff;
+    background-color: #337ab7;
+}
+.nav-pills>li.active{
+    cursor: pointer;
+}
+.nav-pills>li.notActiveNav{
+    background-color: #eee;
+    color:#666;
+}
+.nav-pills>li.notActiveNav:hover{
+    background-color:#f5f5f5;
+    cursor: pointer;
+}
+#createButton{
+    margin:0 auto;
+}
+#createButtonContain{
+    text-align: center;
+}
+#mustGive{
+    padding-top: 10px;
+}
+/*.nav-pills>li.notActiveNav>a:link{
+
+    background-color: #eee;
+    color:#666;
+
+}
+.nav-pills>li.notActiveNav>a:focus, .nav-pills>li.notActiveNav>a:hover{
+    background-color:#f5f5f5;
+    color:#337ab7;
+}
+.nav-pills>li.notActiveNav>a:visited{
+    background-color:#eee;
+    color:#666;
+}*/

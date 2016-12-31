@@ -23,13 +23,16 @@
 
 .image{
 	height:40%;
+	text-align: center;
 }
 
 .extraInfo{
-	height:5%;
+	height:6%;
 	padding-left: 3%;
+	padding-top: 3%;
+	line-height: 100%;
 	font-family: Microsoft YaHei;
-	font-size: 130%;
+	font-size: 100%;
 	border-top:1px solid #d0d0d0;
 	border-bottom:1px solid #d0d0d0;
 }
@@ -37,11 +40,11 @@
 #content{
 	font-family: Microsoft YaHei;
 	padding-left:3%;
-	padding-top: 1px;	
+	padding-top: 5%;	
 }
 
 #name{
-	height:5%;
+	height:12%;
 	padding-left: 3%;
 	font-family: Microsoft YaHei;
 	font-size: 150%;
@@ -49,9 +52,9 @@
 }
 
 #time, #place{
-	height:4%;
+	height:5%;
 	padding-left: 3%;
-	font-size: 130%;
+	font-size: 100%;
 	font-family: Microsoft YaHei;
 }
 

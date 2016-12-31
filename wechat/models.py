@@ -13,7 +13,7 @@ class User(models.Model):
     userid = models.CharField(max_length=32, unique=True,  null = True)#db_index=True,
     union_id = models.CharField(max_length=64, unique=True, db_index=True)
     nickname = models.CharField(max_length=64)
-    headimgurl = models.CharField(max_length=128)
+    headimgurl = models.CharField(max_length=512)
     pageNum = models.IntegerField(null=True)
     pageState = models.IntegerField(null=True)
 
@@ -62,6 +62,8 @@ class UserSignUpExtendAddress(models.Model):
 
     COUNTRY_CHINA = 1
     COUNTRY_AMERICA = 2
+    COUNTRY_JAPAN = 3
+    COUNTRY_RUSSISA = 4
 
 class UserSignUpExtendPostcode(models.Model):
     basicInfo = models.OneToOneField(UserSignUpDetail)
@@ -89,9 +91,9 @@ class UserSignUpExtendCost(models.Model):
 
     # 电子支付未支付和已支付
     # 其他支付状态（如自行转账）同cost_type    user_type =  cost_type
+
     USER_HAS_NOT_PAY = 0
     USER_PAYED = 1
-
 
     COST_PAYNOW = 1
     COST_PAY_WHEN_ARRIVE = 2
@@ -119,7 +121,7 @@ class ChoosedSignUpParts(models.Model):
     # print(theParts.getSignUpParts())
 
     chooseParts = models.CharField(max_length=256)
-
+    maxJoinNum = models.IntegerField()
     def setSignUpParts(self,theList):
         self.chooseParts = json.dumps(theList)
 

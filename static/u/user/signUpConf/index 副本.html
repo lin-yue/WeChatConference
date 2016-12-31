@@ -1,0 +1,723 @@
+<!Doctype html>
+<html>
+<head>
+	<title>用户报名</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--这里是外部css-->
+    <link rel="stylesheet" type="text/css" href="/css/signUp.css">
+    <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/js/base.js"></script>
+	<script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+
+	<script type="text/javascript"></script>
+	
+</head>
+<body>
+	<div id="headtitle">
+			<font face="Microsoft YaHei" class="textOne" id="headOfMust" size="4">1.必填信息</font>
+			<font face="Microsoft YaHei" class="textOne" id="headOfChose" size="4">2.选填信息</font>
+			<font face="Microsoft YaHei" class="textOne" id="headOfMoney" size="4">3.费用处理</font>
+	</div>
+	</br>
+	<form class="form-horizontal" role="form" name="UserForm">
+		<div id="mustGive">
+			<div class="form-group" >
+				<label for="name" class="col-sm-1 col-md-1 col-lg-1 control-label">姓名</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="name" placeholder="请输入您的姓名">
+				</div>
+			</div>
+			<div class="warning">
+				<p id="warningforname"></p>
+			</div>
+			</br>
+			<div class="form-group">
+				<label class="col-sm-1 col-md-1 col-lg-1 control-label">性别</label>
+				<label class="checkbox-inline">
+				    <input type="radio" name="optionsRadiosinline" class = "sexRadio" id="optionsRadios1" value="option1" checked>男
+				</label>
+				<label class="checkbox-inline">
+					<input type="radio" name="optionsRadiosinline" class = "sexRadio" id="optionsRadios2"  value="option2">女
+				</label>
+			</div>
+			</br>
+			<div class="form-group">
+				<label for="phone" class="col-sm-1 col-md-1 col-lg-1 control-label">手机号码</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="phone"placeholder="请输入您的手机号码，以便联系">
+				</div>
+			</div>
+			</br>
+			<div class="form-group">
+				<label for="email" class="col-sm-1 col-md-1 col-lg-1 control-label">邮箱地址</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="email"placeholder="请输入您的邮箱地址，以便联系">
+				</div>
+			</div>
+			</br>
+		</div>
+		<div id="choseGive">
+		<div id = "address1">
+			<div v-if="countryIf == 1" class="form-group" id="countryIf">
+				<label for="country" class="col-sm-1 col-md-1 col-lg-1 control-label">国家</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<select id = "contryList">
+						<option>选择您的国家</option>
+					    <option value="China">中国</option>
+					    <option value="USA">美国</option>
+					    <option value="Japan">日本</option>
+					    <option value="Russian">俄罗斯</option>
+					</select>
+				</div>
+			</div>
+			</br>
+			<div v-if="liveplaceIf == 1" class="form-group" id="liveplaceIf">
+				<label for="liveplace" class="col-sm-1 col-md-1 col-lg-1 control-label">详细住址</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="liveplace" placeholder="请输入您的详细住址">
+				</div>
+			</div>
+			</br>
+		</div>
+		<div id= "postCode1">
+			<div v-if="mailIf == 1" class="form-group" id="mailIf">
+				<label for="mail" class="col-sm-1 col-md-1 col-lg-1 control-label">邮政编码</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="mail" placeholder="请输入您的邮政编码">
+				</div>
+			</div>
+			</br>
+		</div>
+		<div id = "bussiness1">
+			<div v-if="companynameIf == 1" class="form-group" id="companynameIf">
+				<label for="companyname" class="col-sm-1 col-md-1 col-lg-1 control-label">单位名称</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="companyname" placeholder="请输入您的工作单位名称">
+				</div>
+			</div>
+			</br>
+			<div v-if="companyplaceIf == 1" class="form-group" id="companyplaceIf">
+				<label for="companyplace" class="col-sm-1 col-md-1 col-lg-1 control-label">单位地址</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="companyplace" placeholder="请输入您的工作单位地址">
+				</div>
+			</div>
+			</br>
+			<div v-if="companydutyIf == 1" class="form-group" id="companydutyIf">
+				<label for="companyduty" class="col-sm-1 col-md-1 col-lg-1 control-label">职务</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="companyduty" placeholder="请输入您在所在单位的职务">
+				</div>
+			</div>
+			</br>
+		</div>
+		<div id="accomodation1">
+			<div v-if="wheretoliveIf == 1" class="form-group" id="wheretoliveIf" >
+				<label class="col-sm-1 col-md-1 col-lg-1 control-label">理想住宿费用</label>
+				<label class="checkbox-inline accomRadio">
+				    <input type="radio" name="optionsRadiosinline" id="optionsRadios3"   value="option1" checked>0~200 RMB
+				</label>
+				<label class="checkbox-inline accomRadio">
+					<input type="radio" name="optionsRadiosinline" id="optionsRadios4"   value="option2">200~400 RMB
+				</label>
+				<label class="checkbox-inline accomRadio">
+					<input type="radio" name="optionsRadiosinline" id="optionsRadios5"   value="option3">400~600 RMB
+				</label>
+				<label class="checkbox-inline accomRadio">
+					<input type="radio" name="optionsRadiosinline" id="optionsRadios6"   value="option4">600 RMB 以上
+				</label>
+			</div>
+		</div>
+		</div>
+		<div v-if="feeGive == 1" id="feeGive">
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped" id="moneylist">
+					<thead>
+						<th>收费项目</th>
+						<th>具体费用</th>
+						<th>选择（可多选）</th>
+					</thead>
+					<tbody>
+						<tr v-for="projectForMoney in projects">
+							<td class="list1">{{projectForMoney.name}}</td>
+							<td v-bind:id="projectForMoney.id" class="list2">{{projectForMoney.money}} RMB</td>
+							<td class="list3"><input v-bind:id= "projectForMoney.select_id" type="checkbox" v-on:click="showWholeMoney(projectForMoney.money, projectForMoney.select_id)" /></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div style="text-align: center">
+				<p id="moneyTotle">总费用</p>
+				<input type="text" value="0" id="wholeMoney">
+			</div>
+			</br>
+		</div>
+	</form>
+	<button type="button" id="nextstep1" class=" col-xs-4 col-xs-push-4 col-sm-1 col-sm-push-5 col-md-1 col-md-push-5 col-lg-4 col-lg-push-4" >下一步</button>
+	<button type="button" id="beforestep1" class="col-xs-3 col-xs-push-2 col-sm-1 col-sm-push-3 col-md-1 col-md-push-3 col-lg-1 col-lg-push-4" >上一步</button>
+	<button type="button" id="nextstep2" class="col-xs-3 col-xs-push-4 col-sm-1 col-sm-push-6 col-md-1 col-md-push-6 col-lg-1 col-lg-push-6" >下一步</button>
+	<button type="button" id="beforestep2" class="col-xs-3 col-xs-push-2 col-sm-1 col-sm-push-3 col-md-1 col-md-push-3 col-lg-1 col-lg-push-4" >上一步</button>
+	<button type="button" id="nextstep3" class="col-xs-3 col-xs-push-4 col-sm-1 col-sm-push-6 col-md-1 col-md-push-6 col-lg-1 col-lg-push-6" >报名交费</button>
+</body>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script>
+	
+</script>
+<script type="text/javascript">
+
+	var locals;
+	var hasSecondStep = 0;
+	var hasThirdStep = 0;
+	var sexCheckState = 0;
+	var accomodationState = 0;
+
+	
+	var step1Validated = 0;
+	var step2Validated = 0;
+	var step3Validated = 0;
+
+
+	function checkname()
+	{
+		;
+	}
+
+	
+
+	function changeToSecondNext(){  //跳到第二步
+
+		/*if(document.getElementById("optionsRadios1").checked)
+		{
+			sexCheckState = 1;
+		}
+		else if(document.getElementById("optionsRadios2").checked)
+		{
+			sexCheckState = 0;
+		}
+		else
+		{
+			sexCheckState = -1;
+		}*/
+
+
+		console.log(hasSecondStep);
+		
+
+		/*if(hasSecondStep == 0)
+		{
+
+			document.getElementById("feeGive").style.display = "block";
+			document.getElementById("headOfMoney").style.display = "block";
+			document.getElementById("mustGive").style.display = "none";
+			document.getElementById("headOfMust").style.display = "none";
+			document.getElementById("headOfChose").style.display = "none";
+			document.getElementById("choseGive").style.display = "none";
+			document.getElementById("nextstep1").style.display = "none";
+			document.getElementById("nextstep2").style.display = "none";
+			document.getElementById("beforestep1").style.display = "none";
+			document.getElementById("beforestep2").style.display = "block";
+			document.getElementById("nextstep3").style.display = "block";
+
+		}
+		else
+		{*/
+			document.getElementById("mustGive").style.display = "none";
+			document.getElementById("headOfMust").style.display = "none";
+			document.getElementById("headOfChose").style.display = "block";
+			document.getElementById("choseGive").style.display = "block";
+			document.getElementById("nextstep1").style.display = "none";
+			document.getElementById("nextstep2").style.display = "block";
+			document.getElementById("beforestep1").style.display = "block";
+
+		if(document.getElementById("optionsRadios3"))
+		{
+
+		if(accomodationState== 1)
+		{
+			document.getElementById("optionsRadios3").checked = true;
+		}
+		else if(accomodationState == 2)
+		{
+			document.getElementById("optionsRadios4").checked = true;
+		}	
+		else if(accomodationState == 3)
+		{
+			document.getElementById("optionsRadios5").checked = true;
+		}
+		else if(accomodationState == 4)
+		{
+			document.getElementById("optionsRadios6").checked = true;
+		}
+		}
+		//}
+	}
+
+	function changeToFirstBefore(){ //跳到第一步
+
+		/*if(document.getElementById("optionsRadios3").checked)
+		{
+			accomodationState = 1;
+		}
+		else if(document.getElementById("optionsRadios4").checked)
+		{
+			accomodationState = 2;
+		}
+		else if(document.getElementById("optionsRadios5").checked)
+		{
+			accomodationState = 3;
+		}
+		else if(document.getElementById("optionsRadios6").checked)
+		{
+			accomodationState = 4;
+		}
+		else
+		{
+			accomodationState = -1;
+		}*/
+
+		document.getElementById("mustGive").style.display = "block";
+		document.getElementById("headOfMust").style.display = "block";
+		document.getElementById("headOfChose").style.display = "none";
+		document.getElementById("choseGive").style.display = "none";
+		document.getElementById("nextstep1").style.display = "block";
+		document.getElementById("nextstep2").style.display = "none";
+		document.getElementById("beforestep1").style.display = "none";
+		if(sexCheckState == 0)
+		{
+			document.getElementById("optionsRadios2").checked = true;
+		}
+		else if(sexCheckState == 1)
+		{
+			document.getElementById("optionsRadios1").checked = true;
+		}
+	}
+
+	function changeToThirdNext(){
+		/*if(document.getElementById("optionsRadios3").checked)
+		{
+			accomodationState = 1;
+		}
+		else if(document.getElementById("optionsRadios4").checked)
+		{
+			accomodationState = 2;
+		}
+		else if(document.getElementById("optionsRadios5").checked)
+		{
+			accomodationState = 3;
+		}
+		else if(document.getElementById("optionsRadios6").checked)
+		{
+			accomodationState = 4;
+		}
+		else
+		{
+			accomodationState = -1;
+		}*/
+		document.getElementById("feeGive").style.display = "block";
+		document.getElementById("headOfMoney").style.display = "block";
+		document.getElementById("mustGive").style.display = "none";
+		document.getElementById("headOfMust").style.display = "none";
+		document.getElementById("headOfChose").style.display = "none";
+		document.getElementById("choseGive").style.display = "none";
+		document.getElementById("nextstep1").style.display = "none";
+		document.getElementById("nextstep2").style.display = "none";
+		document.getElementById("beforestep1").style.display = "none";
+		document.getElementById("beforestep2").style.display = "block";
+		document.getElementById("nextstep3").style.display = "block";
+		document.getElementById("feeGive").style.display = "block";
+	}
+
+	function failToSignUp(errno, errmsg, e){
+		if(errno == 6)
+		{
+			alert("您已登录，将跳转到会议详情页");
+			window.open(("http://m2.huiplus.com.cn/app/#/confinfo/" + String(urlParam.confid)), "_self");
+			return;
+		}
+
+	}
+
+
+	function submitSignUp(){
+
+		/*document.getElementById("feeGive").style.display = "block";
+		document.getElementById("headOfMoney").style.display = "block";
+		document.getElementById("mustGive").style.display = "none";
+		document.getElementById("headOfMust").style.display = "none";
+		document.getElementById("headOfChose").style.display = "none";
+		document.getElementById("choseGive").style.display = "none";
+		document.getElementById("nextstep1").style.display = "none";
+		document.getElementById("nextstep2").style.display = "none";
+		document.getElementById("beforestep1").style.display = "none";
+		document.getElementById("beforestep2").style.display = "block";
+		document.getElementById("nextstep3").style.display = "block";
+		document.getElementById("feeGive").style.display = "block";*/
+
+		var data1 = Object();
+		console.log(urlParam);
+		data1.confid = urlParam.confid;
+		data1.userid = urlParam.userid;
+		data1.name = $("#name").val();
+		/*if(document.getElementById("optionsRadios1").checked)
+		{
+			data1.sex = 1;
+		}
+		if(document.getElementById("optionsRadios2").checked)
+		{
+			data1.sex = 0;
+		}*/
+		data1.sex = sexCheckState;
+		data1.telephone = $("#phone").val();
+		data1.email = $("#email").val();
+
+		var i =0;
+
+		for(i =0; i < locals.moduleList.length; i++)
+		{
+			switch(locals.moduleList[i])
+			{
+				case 1:
+					data1.country = document.getElementById('contryList').selectedIndex;
+					console.log(document.getElementById('contryList').selectedIndex)
+					data1.address = $("#liveplace").val();
+					break;
+			    case 2:
+			    	data1.postcode = $("#mail").val();
+					break;
+				case 3:
+					data1.company_name =  $("#companyname").val();;
+					data1.company_address =  $("#companyplace").val();;
+					data1.company_job =  $("#companyduty").val();;
+						break;
+				case 4:
+					/*if(document.getElementById("optionsRadios3").checked)
+					{
+							data1.accommodation_type = 1;
+					}
+					if(document.getElementById("optionsRadios4").checked)
+					{
+							data1.accommodation_type = 2;
+					}
+					if(document.getElementById("optionsRadios5").checked)
+					{
+							data1.accommodation_type = 3;
+					}
+					if(document.getElementById("optionsRadios6").checked)
+					{
+							data1.accommodation_type = 4;
+					}*/
+					data1.accommodation_type = accomodationState;
+						break;
+				case 5:
+				   data1.cost_type = 1;
+				   data1.user_pay_status = 0;
+				   data1.priceList = new Array();
+				   for(j = 0; j < locals.priceInfo.length; j++)
+				   {
+						if(document.getElementById(locals.priceInfo[j].select_id).checked)
+						{
+							data1.priceList.push(Number(locals.priceInfo[j].select_id.slice(locals.priceInfo[j].select_id.indexOf("_") + 1)));
+						}
+				   }
+				   break;
+				case 6:
+				   //data1.extra_description;
+						break;
+		  }
+
+		}
+
+		api.post("/api/u/user/signUpConf",{userid:1},function(data){
+
+		},failToSignUp);
+	
+
+		api.post("/api/u/user/signUpConf",data1, function(data){
+
+			alert("报名成功，请等待审核结果");
+			window.open("http://m2.huiplus.com.cn/app/#/confinfo/" + String(urlParam.confid), "_self");
+
+    	},failToSignUp);
+	}
+
+	function changeToSecondBefore(){
+		document.getElementById("feeGive").style.display = "none";
+		document.getElementById("headOfMoney").style.display = "none";
+		document.getElementById("mustGive").style.display = "none";
+		document.getElementById("headOfMust").style.display = "none";
+		document.getElementById("headOfChose").style.display = "block";
+		document.getElementById("choseGive").style.display = "block";
+		document.getElementById("nextstep2").style.display = "block";
+		document.getElementById("beforestep1").style.display = "block";
+		document.getElementById("beforestep2").style.display = "none";
+		document.getElementById("nextstep3").style.display = "none";
+		document.getElementById("feeGive").style.display = "none";
+
+		if(document.getElementById("optionsRadios3"))
+		{
+
+		if(accomodationState== 1)
+		{
+			document.getElementById("optionsRadios3").checked = true;
+		}
+		else if(accomodationState == 2)
+		{
+			document.getElementById("optionsRadios4").checked = true;
+		}	
+		else if(accomodationState == 3)
+		{
+			document.getElementById("optionsRadios5").checked = true;
+		}
+		else if(accomodationState == 4)
+		{
+			document.getElementById("optionsRadios6").checked = true;
+		}
+		}
+	}
+
+	function failAndBack(errno, errmsg, e){
+		alert("加载失败: [" + errno + "] " + errmsg + " " + e + "\n请重试");
+		window.open(("/u/conf/detail?" + "confid=" +String(urlParam.confid) + "&" + "userid="+String(urlParam.userid)), "_self");
+
+	}
+
+	
+
+	
+	api.get("/api/u/user/signUpConf",{confid: urlParam.confid, userid: urlParam.userid}, function(data){
+        locals = data;
+        if(!locals.priceInfo)
+        {
+        	locals.priceInfo = [];
+        }
+
+    var countryIf1 = 0;
+	var mailIf1= 0;
+	var companynameIf1 = 0;
+	var companyplaceIf1 = 0;
+	var companydutyIf1 = 0;
+	var liveplaceIf1 = 0;
+	var feeGive1 = 0;
+	var wheretoliveIf1 = 0;
+	var extraInfoIf1 = 0;
+
+
+        var i, j;
+        hasSecondStep = 0;
+        hasThirdStep = 0;
+        var hasMoudle = 0;
+        for(i = 1; i <= 5; i++)
+        {
+        	hasMoudle = 0;
+        	for(j = 0; j < locals.moduleList.length; j++)
+        	{
+        		if(locals.moduleList[j] == i)
+        		{
+        			hasMoudle = 1;
+        			if(i != 5)
+        			{
+        				hasSecondStep = 1;
+        			}
+        			else
+        			{
+        				hasThirdStep = 1;
+        			}
+        		}
+        	}
+
+        	if(hasMoudle == 1)
+        	{
+        		switch(i)
+            	{
+                case 1:
+                	countryIf1 = 1;
+                	liveplaceIf1 = 1;
+                	                
+                    break;
+                case 2:
+					mailIf1= 1;                   
+                    break;
+                case 3:
+					companynameIf1 = 1;
+					companyplaceIf1 = 1;
+					companydutyIf1 = 1;					
+					                   
+                    break;
+                case 4:
+                	wheretoliveIf1 = 1;                    
+                    break;
+                case 5:
+                	feeGive1 = 1;                    
+                    break;
+                case 6:
+                	extraInfoIf1 = 1;                    
+                    break;
+                default:
+                    alert("抱歉，服务器内部出现错误")
+                    window.open(("/u/conf/detail?" + String(urlParam.confid) + "&" + String(urlParam.userid)), "_self");
+                    break;
+            	}
+        	}    
+        }
+        if(hasSecondStep == 0 && hasThirdStep == 0)
+        {
+        	$('#headOfMust').text("必填信息");
+        	$("#nextstep1").text("报名");
+        	$("#nextstep1").on("click",submitSignUp);
+        }
+        else if(hasSecondStep ==0)
+        {
+        	$('#headOfMoney').text("2.费用处理");
+        	$("#nextstep1").on("click",changeToThirdNext);
+        	$("#beforestep2").on("click",changeToFirstBefore);
+        	$("#nextstep3").on("click",submitSignUp);
+        }
+        else if(hasThirdStep ==0)
+        {
+        	$("#nextstep2").text("报名");
+        	$("#nextstep1").on("click",changeToSecondNext);
+        	$("#beforestep1").on("click",changeToFirstBefore);
+        	$("#nextstep2").on("click",submitSignUp);
+        }
+        else
+        {
+        	$("#nextstep1").on("click",changeToSecondNext);
+        	$("#beforestep1").on("click",changeToFirstBefore);
+        	$("#nextstep2").on("click",changeToThirdNext);
+        	$("#beforestep2").on("click",changeToSecondBefore);
+        	$("#nextstep3").on("click",submitSignUp);
+        }
+
+
+
+
+    var countryIf = new Vue({
+		el:'#countryIf',
+		data:{
+			countryIf:countryIf1,
+		}
+	});
+	var mailIf= new Vue({
+		el:'#mailIf',
+		data:{
+			mailIf:mailIf1,
+		}
+	});
+	var liveplace = new Vue({
+		el:'#liveplaceIf',
+		data:{
+			liveplaceIf:liveplaceIf1,
+		}
+	});
+	var companynameIf = new Vue({
+		el:'#companynameIf',
+		data:{
+			companynameIf:companynameIf1,
+		}
+	});
+	var companyplaceIf = new Vue({
+		el:'#companyplaceIf',
+		data:{
+			companyplaceIf:companyplaceIf1,
+		}
+	});
+	var companydutyIf = new Vue({
+		el:'#companydutyIf',
+		data:{
+			companydutyIf:companydutyIf1,
+		}
+	});
+	var wheretoliveIf = new Vue({
+		el:'#wheretoliveIf',
+		data:{
+			wheretoliveIf:wheretoliveIf1,
+		}
+	});
+	var feeGive = new Vue({
+		el:'#feeGive',
+		data:{
+			feeGive:feeGive1,
+			projects:locals.priceInfo,
+		},
+		methods:{
+			showWholeMoney:function(x, y){
+				var z = document.getElementById("wholeMoney");
+				if(document.getElementById(y).checked){
+				    var m = parseInt(z.value);
+				    m += parseInt(x);
+				    z.value = m;
+				}
+				else{
+					var m = parseInt(z.value);
+				    m -= parseInt(x);
+				    z.value = m;
+				}
+			}
+		}
+	})
+
+    }, failAndBack)
+
+function storeSexState(){
+
+if(document.getElementById("optionsRadios1").checked)
+		{
+			sexCheckState = 1;
+		}
+		else if(document.getElementById("optionsRadios2").checked)
+		{
+			sexCheckState = 0;
+		}
+		else
+		{
+			sexCheckState = -1;
+		}
+}
+
+
+function storeAccomState(){
+
+	if(document.getElementById("optionsRadios3"))
+	{
+
+	if(document.getElementById("optionsRadios3").checked)
+		{
+			accomodationState = 1;
+		}
+		else if(document.getElementById("optionsRadios4").checked)
+		{
+			accomodationState = 2;
+		}
+		else if(document.getElementById("optionsRadios5").checked)
+		{
+			accomodationState = 3;
+		}
+		else if(document.getElementById("optionsRadios6").checked)
+		{
+			accomodationState = 4;
+		}
+		else
+		{
+			accomodationState = -1;
+		}
+	}
+	
+	}
+
+
+
+	$(function(){
+		$(".sexRadio").on("click", storeSexState);
+		$("#nextstep2").on("click", storeAccomState);
+		$("#beforestep1").on("click", storeAccomState);
+		$("#name").on("blur", validateName)
+	})
+
+</script>
+</html>

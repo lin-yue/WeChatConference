@@ -1,0 +1,171 @@
+<!Doctype html>
+<html>
+<head>
+	<title>会议提醒</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--这里是外部css-->
+    <link rel="stylesheet" type="text/css" href="/css/remindAdmin.css">
+    <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="/js/base.js"></script>
+    <script src="/js/validate.js"></script>
+    <script src="/js/base_admin.js"></script>
+	
+
+	
+
+
+	
+</head>
+<body>
+	<div id = "headtitle"> <ul class="nav navbar-nav">
+                <li ckass="dropdown">
+                    <a style="font-family:Microsoft YaHei;font-size:4;color:#ffffff" class="dropdown-toggle" data-toggle="dropdown">菜单<b class="caret"></b></a> 
+                    <ul class="dropdown-menu">
+                        <li><a id = "forSignUp" style="font-family:Microsoft YaHei" >报名管理</a></li>
+                        <li><a id = "forCheckMember" style="font-family:Microsoft YaHei" >审核管理</a></li>
+                        <li><a id = "forRemindAdmin"style="font-family:Microsoft YaHei" >提醒管理</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <font face="Microsoft YaHei" class="textOne" id="headOfMust" style="margin-left:44%"size="4">{{confName}}</font>
+            </div>
+    <div class = "container">
+    <ul class="nav nav-pills" role="tablist">
+        <li role="presentation" class="active" id = "actNav1">提醒列表</li>
+        <li role="presentation" class ="notActiveNav" id = "passNav1">创建提醒</li>
+      </ul>
+    <!-- <button type="button" class="btn btn-lg btn-primary">创建提醒</button>
+    <p id = "remindsText">提醒列表</p> -->
+    <p id = "forPadding"></p>
+	<div id = "remindTable">
+                <table class="table table-bordered table-striped" id="moneylist">
+                    <thead>
+                        <th>序号</th>
+                        <th>提醒时间</th>
+                        <th>提醒内容</th>
+                    </thead>
+                    <tbody class = "forRender">
+                        <tr v-for="remind in remindList">
+                            <td class="list1">{{remind.count}}</td>
+                            <td class="list2">{{remind.timeText}}</td>
+                            <td class="list3">{{remind.remind}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="mustGive">
+            <div class="form-group" id = "remindCreateForm">
+                <label for="name" class = "control-label">提醒内容：</label>
+                <textarea class="form-control" rows="5" placeholder="请输入要创建的提醒的内容" id ="remindCreated" onblur = "validateRemind()"></textarea> 
+                <p class="help-block" id = "remindCreateWarnning"></p>
+            </div>
+            <div id = "createButtonContain">
+                <button type="button" class="btn btn-primary" id="createButton">创建提醒</button>
+            </div>
+</div>
+
+    
+
+    <script type="text/javascript">
+
+    var locals;
+
+    function validateRemind()
+    {
+
+        tempt = $("#remindCreated").val();       
+        return validateForm("#remindCreateForm", "#remindCreateWarnning", tempt, [checkLength,checkEmptyForText],[512], [ "创建的提醒内容过长", "创建的提醒内容不能为空"]);
+    }
+
+    $("#actNav1").on("click",function(){
+            $("#mustGive").css("display", "none");
+            $("#remindTable").css("display", "block");
+            $('#actNav1').addClass('active');
+            $('#passNav1').addClass('notActiveNav');
+            $('#actNav1').removeClass('notActiveNav');
+            $('#passNav1').removeClass('active');
+         })
+    $("#passNav1").on("click",function(){
+             $("#remindTable").css("display", "none");
+             $("#mustGive").css("display", "block");
+             $('#actNav1').addClass('notActiveNav');
+            $('#passNav1').addClass('active');
+            $('#actNav1').removeClass('active');
+            $('#passNav1').removeClass('notActiveNav');
+         })
+    $(function(){
+        $("#forSignUp").attr("href", "/a/conf/signUpModule" + "?confid=" + urlParam.confid);
+        $("#forCheckMember").attr("href", "/a/conf/checkMember" + "?confid=" +  urlParam.confid);
+        $("#forRemindAdmin").attr("href", "/a/conf/remindAdmin" + "?confid=" + urlParam.confid);
+        $("#mustGive").css("display", "none");
+        $("#createButton").on("click",function(){
+            if(validateRemind() == 1)
+            {
+            var data1 = new Object();
+            data1.confid = urlParam.confid;
+            data1.remind = $("#remindCreated").val();
+            api.post("/api/a/conf/confReminds",data1,function(data){
+
+                alert("创建成功")
+                $("#remindCreated").val("");
+                window.open("/a/conf/remindAdmin" + "?confid=" + urlParam.confid, "_self");
+
+            },dftFail);
+            }
+
+        })
+
+        api.get('/api/a/conf/confReminds', {confid:urlParam.confid}, function(data){
+
+            
+        
+        locals = data;
+
+        for(i = 0; i < locals.reminds.length; i++)
+        {
+             locals.reminds[i].count = i + 1;
+             console.log(locals.reminds)
+             updateDate(locals.reminds[i], 'publishTime');
+             console.log("record time")
+             console.log(locals.reminds[i])
+             locals.reminds[i].timeText = locals.reminds[i].publishTime.getFullYear()+"年"+locals.reminds[i].publishTime.getMonth()+"月"+locals.reminds[i].publishTime.getDate() + "日 " + locals.reminds[i].publishTime.getHours() + ":" ;
+             if(locals.reminds[i].publishTime.getMinutes() < 10)
+             {
+                locals.reminds[i].timeText = locals.reminds[i].timeText + "0" + locals.reminds[i].publishTime.getMinutes();
+             }
+             else
+             {
+                locals.reminds[i].timeText = locals.reminds[i].timeText  + locals.reminds[i].publishTime.getMinutes();
+             }
+
+        }
+        var remindList = new Vue({
+        el:'.forRender',
+        data: {
+            remindList:locals.reminds,
+        },
+        })
+        var confName = new Vue({
+        el:'#headtitle',
+        data: {
+            confName:locals.confname,
+        },
+        })
+            
+        },dftFail)
+    })
+
+
+
+        
+    </script>
+</html>

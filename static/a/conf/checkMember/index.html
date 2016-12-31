@@ -1,0 +1,366 @@
+<!Doctype html>
+<html>
+<head>
+	<title>用户报名审核</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    
+   
+    <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+	<script src="/js/base.js"></script>
+    <script src="/js/base_admin.js"></script>
+
+	 <link rel="stylesheet" type="text/css" href="/css/check.css">
+	 <!--<link rel="stylesheet" type="text/css" href="/css/global.css">-->
+</head>
+<body>
+	<div id="headtitle">
+			<ul class="nav navbar-nav">
+				<li ckass="dropdown">
+                    <a style="font-family:Microsoft YaHei;font-size:4;color:#ffffff" class="dropdown-toggle" data-toggle="dropdown">菜单<b class="caret"></b></a> 
+                    <ul class="dropdown-menu">
+                        <li><a id = "forSignUp" style="font-family:Microsoft YaHei" >报名管理</a></li>
+                        <li><a id = "forCheckMember" style="font-family:Microsoft YaHei" >审核管理</a></li>
+                        <li><a id = "forRemindAdmin"style="font-family:Microsoft YaHei" >提醒管理</a></li>
+                    </ul>
+                </li>
+			</ul>
+			<font face="Microsoft YaHei" class="textOne" id="headOfMust" style="margin-left:44%"size="4">审核</font>
+	</div>
+	</br>
+	<div class="personInfo" style="" id="personInfoDiv">
+		
+			<div id="firstTable" style="">
+				<table class="table table-bordered table-striped" id="peoplelist" style="width:80%;margin:auto">
+					<thead>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>手机</th>
+						<th>邮箱</th>
+						<th>其他信息</th>
+						<th>审核情况</th>
+					</thead>
+					<tbody>
+						<tr v-for="everyone in persons">
+							<td class="list1">{{everyone.name}}</td>
+							<td class="list2">{{everyone.sex}}</td>
+							<td class="list3">{{everyone.iphone}}</td>
+							<td class="list4">{{everyone.email}}</td>
+							<td class="list5"><label style="text-decoration:underline" v-on:click="showDetail(everyone.country,
+							everyone.place,everyone.mail,everyone.companyName,everyone.companyPlace,everyone.job, everyone.moneyDream)">点击查看</label></td>
+							<td class="list6"><form><input type="checkbox" v-on:click="getChecked(everyone.userid)"/></form></td>
+						</tr>
+						<tr v-for="everyone in personsPass">
+							<td class="list1">{{everyone.name}}</td>
+							<td class="list2">{{everyone.sex}}</td>
+							<td class="list3">{{everyone.iphone}}</td>
+							<td class="list4">{{everyone.email}}</td>
+							<td class="list5"><label style="text-decoration:underline" v-on:click="showDetail(everyone.country,
+								everyone.place,everyone.mail,everyone.companyName,everyone.companyPlace,everyone.job, everyone.moneyDream)">点击查看</label></td>
+							<td class="list6"><label>已审核</label></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+	</div>
+	<div id="details" style="height:20%">
+		<table class="table table-bordered table-striped" style="width:80%;position:absolute;left:10%">
+				<thead>
+					<th>国籍</th>
+					<th>地址</th>
+					<th>邮编</th>
+					<th>单位名称</th>
+					<th>单位地址</th>
+					<th>职务</th>
+					<th>理想住宿费用</th>
+				</thead>
+				<tbody>
+					<td class="list1"><p id="01"></p></td>
+					<td class="list2"><p id="02"></p></td>
+					<td class="list3"><p id="03"></p></td>
+					<td class="list4"><p id="04"></p></td>
+					<td class="list5"><p id="05"></p></td>
+					<td class="list6"><p id="06"></p></td>
+					<td class="list7"><p id="07"></p></td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+    <br>
+	<br>
+	<button type="button" id="lastSubmit" class="col-xs-2 col-xs-push-5 col-sm-1 col-sm-push-5 col-md-1 col-md-push-5 col-lg-2 col-lg-push-5" >提交修改</button>
+	<button type="button" id="back" class="col-xs-2 col-xs-push-5 col-sm-1 col-sm-push-5 col-md-1 col-md-push-5 col-lg-2 col-lg-push-5" onclick="beback()">返回</button>
+</body>
+
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script>
+	$(function(){
+
+		$("#forSignUp").attr("href", "/a/conf/signUpModule" + "?confid=" + urlParam.confid);
+		$("#forCheckMember").attr("href", "/a/conf/checkMember" + "?confid=" +  urlParam.confid);
+		$("#forRemindAdmin").attr("href", "/a/conf/remindAdmin" + "?confid=" + urlParam.confid);
+
+		var locals;
+		var checkedPersonList = Array();
+
+	function failAndBack(errno, errmsg, e){
+		alert("加载失败: [" + errno + "] " + errmsg + " " + "\n请重试");
+		window.open("/a/conf/signUpModule?" + "confid=" +String(urlParam.confid), "_self");
+
+	}
+
+	function changeDataState(data){
+		var tempt;
+		var result = Object();
+		result.persons = Array();
+		result.personsPass = Array();
+		var newOne;
+
+		for(i = 0; i < data.length; i++)
+		{
+            newOne = Object();
+			tempt = data[i];
+			newOne.name = tempt.name;
+			if(tempt.sex == 1)
+			{
+				newOne.sex = "男";
+			}
+			else
+			{
+				newOne.sex = "女";
+			}
+			newOne.iphone = tempt.telephone;
+			newOne.email = tempt.email;
+			newOne.status = 0;
+			newOne.userid = tempt.userid;
+			if(tempt.country == null){
+				newOne.country = 0;
+			}
+			else{
+			switch(tempt.country){
+				case 1:
+					newOne.country = "中国";
+					break;
+				case 2:
+					newOne.country = "美国";
+					break;
+				case 3:
+					newOne.country = "日本";
+					break;
+				case 4:
+					newOne.country = "俄罗斯";
+					break;
+			}
+		}
+
+			if(tempt.address == null){
+				newOne.place = 0;
+			}
+			else
+			{
+				newOne.place = tempt.address;
+			}
+
+			if(tempt.postcode == null){
+				newOne.mail = 0;
+			}
+			else
+			{
+				newOne.mail = tempt.postcode;
+			}
+
+			if(tempt.companyName == null){
+				newOne.companyName = 0;
+			}
+			else
+			{
+				newOne.companyName = tempt.companyName;
+			}
+
+			if(tempt.companyAddress == null){
+				newOne.companyPlace = 0;
+			}
+			else
+			{
+				newOne.companyPlace = tempt.companyAddress;
+			}
+
+			if(tempt.companyJob == null){
+				newOne.job = 0;
+			}
+			else
+			{
+				newOne.job = tempt.companyJob;
+			}
+
+			
+			
+			
+			
+
+			if(tempt.accommodationType == null){
+				newOne.moneyDream = 0;
+			}
+			else{
+			switch(tempt.accommodationType){
+				case 1:
+					newOne.moneyDream = "200";
+					break;
+				case 2:
+					newOne.moneyDream = "400";
+					break;
+				case 3:
+					newOne.moneyDream = "600";
+					break;
+				case 4:
+					newOne.moneyDream = ">600";
+					break;
+			}
+		}
+			newOne.otherInfo = 0;
+
+
+			if(tempt.address == null){
+				newOne.place = 0;
+			}
+			else {
+                newOne.place = tempt.address;
+            }
+
+			if(tempt.checkedStatus == 1)
+			{
+				result.personsPass.push(newOne);
+			}
+			else
+			{
+				result.persons.push(newOne);
+			}
+
+			
+
+		}
+		return result;
+	}
+
+	$("#lastSubmit").on("click",function(){
+
+		var data1 = Object();
+		data1.confid = urlParam.confid;
+		data1.personList = checkedPersonList;
+
+		api.post("/api/a/conf/confMembers", data1, function(data){
+
+			alert("审核操作成功")
+			window.open("/a/conf/checkMember?" + "confid=" +String(urlParam.confid), "_self");
+
+		},dftFail);
+
+	})
+
+
+
+
+	api.get("/api/a/conf/user/detail", {confid: urlParam.confid}, function(data)
+	{
+
+	locals = changeDataState(data);
+
+
+
+	var peopleList = new Vue({
+		el:'.personInfo',
+		data: locals,
+		methods:{
+			returnStatus:function(x,y){
+				var a = document.getElementById(x);
+				if(y == 0){
+					a.value = "未审核";
+				}
+				else if(y == 1){
+					a.value = "已通过";
+				}
+			},
+
+			showDetail:function(x1,x2,x3,x4,x5,x6,x7){
+				document.getElementById("personInfoDiv").style.display = "none";
+				document.getElementById("details").style.display = "block";
+				document.getElementById("lastSubmit").style.display = "none";
+				document.getElementById("back").style.display = "block";
+				if(x1 != '0'){
+					document.getElementById("01").innerHTML = x1;
+				}
+				else{
+					document.getElementById("01").innerHTML = "无";
+				}
+				if(x2 != '0'){
+					document.getElementById("02").innerHTML = x2;
+				}
+				else{
+					document.getElementById("02").innerHTML = "无";
+				}
+				if(x3 != '0'){
+					document.getElementById("03").innerHTML = x3;
+				}
+				else{
+					document.getElementById("03").innerHTML = "无";
+				}
+				if(x4 != '0'){
+					document.getElementById("04").innerHTML = x4;
+				}
+				else{
+					document.getElementById("04").innerHTML = "无";
+				}
+				if(x5 != '0'){
+					document.getElementById("05").innerHTML = x5;
+				}
+				else{
+					document.getElementById("05").innerHTML = "无";
+				}
+				if(x6 != '0'){
+					document.getElementById("06").innerHTML = x6;
+				}
+				else{
+					document.getElementById("06").innerHTML = "无";
+				}
+				if(x7 != '0'){
+					document.getElementById("07").innerHTML = x7;
+				}
+				else{
+					document.getElementById("07").innerHTML = "无";
+				}
+			},
+
+			getChecked:function(x){
+				for(i = 0; i < checkedPersonList.length; i++)
+				{
+					if(checkedPersonList[i] == x)
+					{
+						console.log("testremove")
+						console.log(checkedPersonList)
+						checkedPersonList.splice(i, 1);
+						console.log(checkedPersonList)
+						console.log("testremove")
+						return;
+					}
+				}
+				checkedPersonList.push(x)
+			}
+		}
+	})
+}, failAndBack)
+})
+
+	function beback(){
+		document.getElementById("personInfoDiv").style.display = "block";
+		document.getElementById("details").style.display = "none";
+		document.getElementById("lastSubmit").style.display = "block";
+		document.getElementById("back").style.display = "none";
+	}
+</script>
+</html>

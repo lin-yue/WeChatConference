@@ -78,7 +78,7 @@
     var oldScroll = 0;
 
     function toLogin(){
-    	window.open("/u/user/signUpConf/index.html", "_self");
+    	window.open("/u/user/signUpConf/?userid=" + String(urlParam.userid) + "&confid=" + String(urlParam.confid), "_self");
     }
 
     function toDetail(){

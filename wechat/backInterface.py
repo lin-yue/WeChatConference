@@ -1,6 +1,10 @@
 import urllib.parse
 import urllib.request
 import json
+import urllib.parse
+import urllib.request
+import hashlib
+from WeChatTicket.settings import WECHAT_TOKEN, WECHAT_APPID, WECHAT_SECRET
 """
 做了一些特殊处理，因为在将返回的消息解析成字典类型时，没有 null，true，false三项
 因此，做了定义
@@ -167,19 +171,60 @@ def cancelConf(userid,confid):
     s = response.read().decode('utf-8')
     dic = json.loads(s)
     return dic
-
+#10
 def myAllConfs(userid):
     confList = []
     totalCount = 0
     pageNum = 1
-    result =  favoriteConfList(userid, pageNum, 20)
+    result = favoriteConfList(userid, pageNum, 20)
     totalCount = int(result['total_size'])
     confList += result['data']
     while pageNum * 20 < totalCount:
         pageNum += 1
         result = favoriteConfList(userid, pageNum, 20)
         confList += result['data']
-    print(confList)
+
     return confList
 
+#11
+def getUnionId(access_token, openId):
+    url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN"%(access_token,openId)
+    #print (url)
+    response = urllib.request.urlopen(url)
+    s = response.read().decode("utf-8")
+    dic = eval(s)
+    return dic
+    #https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
+# 要注意
+appId = WECHAT_APPID
+appSecret = WECHAT_SECRET
+def getAccessToken(appId,appSecret):
+    url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s"%(appId,appSecret)
+    response=urllib.request.urlopen(url)
+    s = response.read().decode('utf-8')
+    s = eval(s)
+    return s
+
+#accessToken = getAccessToken(appId,appSecret)
+#s = getUnionId(accessToken["access_token"],"ophyUwgr6IAzdQqENeW-2OFENy-Y")
+def postRemind(template_id,conf,remind,openid,tempurl):
+    print("this is done")
+    AAA_token = getAccessToken(appId,appSecret)["access_token"]
+    url='https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s'%AAA_token
+    template_id =template_id
+    postdata='{"touser":"%s","template_id":"%s","url":"%s","data":{"conf": {"value":"%s"},"remind":{"value":"%s"}}}'%(openid,template_id,tempurl,conf,remind)
+    #print(postdata)
+    postdata=postdata.encode('utf-8')
+    request = urllib.request.Request(url,postdata)
+    response=urllib.request.urlopen(request)
+    s = response.read().decode('utf-8')
+    dic=eval(s)
+    ###print(dic)
+
+#conf="联合峰会"
+#remind="注意老人和小孩的安全"
+#openid = "opLZjwZ4nid4yL10YUjVJ8K97-D0"
+#tempurl=""#"http://www.baidu.com/"
+
+#postRemind(conf,remind,openid,tempurl)
 

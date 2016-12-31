@@ -59,7 +59,17 @@ class NextPageHandler(WeChatHandler):
         else:
             return self.reply_text('对不起，没有找到要翻页对应的项目:(')
 
+class AboutConfPlus(WeChatHandler):
+    def check(self):
+        return self.is_event_click(self.view.event_keys['more_about'])
+    def handle(self):
+        return self.reply_text("此接口应为会佳简介的网址~")
 
+class MyRemindHandler(WeChatHandler):
+    def check(self):
+        return self.is_event_click(self.view.event_keys['my_reminds'])
+    def handle(self):
+        return self.reply_text(self.get_message('wechat_remind', jmpUrl=self.url_userRemind(self.user.userid)))
 
 
 
@@ -70,7 +80,8 @@ class recentConferenceHandler(WeChatHandler):
 
     def handle(self):
 
-
+        print(self.user.userid)
+        print("**a test**")
         response1 = upcomingConfList(self.user.userid, 1, 9)
 
         if len(response1['data']) == 0:
@@ -98,6 +109,7 @@ class myConferenceHandler(WeChatHandler):
         return self.is_event_click(self.view.event_keys['my_conference'])
 
     def handle(self):
+        print(self.user.userid)
 
         response1 = favoriteConfList(self.user.userid, 1, 9)
         if len(response1['data']) == 0:
@@ -145,7 +157,7 @@ class SubscribeHandler(WeChatHandler):
     def handle(self):
 
         response = WeChatLib.getUnionId(self.user.open_id)
-        print(response)
+
 
         self.user.headimgurl = response['headimgurl']
         self.user.nickname = response['nickname']

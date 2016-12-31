@@ -1,0 +1,357 @@
+<!Doctype html>
+<html>
+<head>
+	<title>管理员管理页面</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    
+   
+    <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+	<script src="/js/base.js"></script>
+    <script src="/js/validate.js"></script>
+    <script src="/js/base_admin.js"></script>
+
+	<!--这里是外部css-->
+	<link rel="stylesheet" type="text/css" href="/css/signCreate.css">
+	<script type="text/javascript"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="headtitle">
+			<ul class="nav navbar-nav">
+				<li ckass="dropdown">
+					<a style="font-family:Microsoft YaHei;font-size:4;color:#ffffff" class="dropdown-toggle" data-toggle="dropdown">菜单<b class="caret"></b></a> 
+					<ul class="dropdown-menu">
+						<li><a id = "forSignUp" style="font-family:Microsoft YaHei" >报名管理</a></li>
+						<li><a id = "forCheckMember" style="font-family:Microsoft YaHei" >审核管理</a></li>
+						<li><a id = "forRemindAdmin"style="font-family:Microsoft YaHei" >提醒管理</a></li>
+					</ul>
+				</li>
+			</ul>
+			<font face="Microsoft YaHei" class="textOne" id="headOfMust" style="margin-left:44%" size="4">报名信息管理</font>
+	</div>
+	</br>
+	<form class="form-horizontal" role="form" name="UserForm">
+		<div class="MaxNum" style="height:60px" id="numForm">
+			<label for="num" class="col-sm-1 col-md-1 col-lg-1 control-label">参会最大人数</label>
+			<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="num" placeholder="请输入参会的人数最大值" onblur="validateNum()">
+                    <p class="help-block" id = "numWarnning"></p>
+			</div>
+		</div>	
+		</br>
+		<div class="choseInfo" style="height:250px;padding-left: 15px;">
+			<label  class="col-sm-1 col-md-1 col-lg-1 control-label">选填信息列表</label>
+			<table style="width:82%" class="table table-bordered table-striped col-sm-8 col-md-8 col-lg-8" id="choseList">
+					<thead>
+						<th>选填项目</th>
+						<th>内容包括</th>
+						<th>选择（可多选）</th>
+					</thead>
+					<tbody>
+						<tr>
+						<td>地区</td>
+						<td>国籍与地址</td>
+						<td style="width:20%"><input type="checkbox" id="place"/></td>
+						</tr>
+						<tr>
+						<td>邮编</td>
+						<td>当地邮政编码</td>
+						<td style="width:20%"><input type="checkbox" id="mail" /></td>
+						</tr>
+						<tr>
+						<td>单位</td>
+						<td>单位地址，单位职务</td>
+						<td style="width:20%"><input type="checkbox" id="company" /></td>
+						</tr>
+						<tr>
+						<td>住宿</td>
+						<td>合适的住宿费用</td>
+						<td style="width:20%"><input type="checkbox" id="accomodation"/></td>
+						</tr>
+						<tr>
+						   <td>费用列表</td>
+						   <td>会议报名需要的费用项目</td>
+						   <td style="width:20%"><input type="checkbox" id="costfee" onclick="updateFeeTable()"/></td>
+						</tr>
+					</tbody>
+				</table>
+		</div>
+
+		<br>
+		<br>
+		<div style="min-height:60px;height:auto; display:none" id = "postCostFee">
+		
+		<label for="num" class="col-sm-1 col-md-1 col-lg-1 control-label">费用部分安排</label>
+		<div class="col-sm-8 col-md-8 col-lg-8" id = "priceDescriptionForm">
+				<input type="text" class="form-control" id="priceDesciption" placeholder="请输入具体收费项目" onblur="validatePriceDesciption()">
+                <p class="help-block" id = "priceDescriptionWarnning"></p>
+		</div>
+		<div class="col-sm-2 col-md-2 col-lg-2" id = "priceAmountForm">
+				<input type="text" class="form-control" id="priceAmount" placeholder="费用" onblur="validatePriceAmount()">
+                <p class="help-block" id = "priceAmountWarnning"></p>
+		</div>
+		</div>
+		
+		</br>
+	</form>
+	</br>
+	</br>
+	<div id = "costFeeTable" style="min-height:200px;height:auto;display:none">
+		<table id="moneyWhere" style="width:83%;margin:auto;" class="table table-bordered table-striped">
+			<thead>
+					<th style="width:90%">具体交费项目</th>
+					<th style="width:10%">费用金额</th>
+			</thead>
+			<tbody class = "forRender">
+				<tr v-for="project in priceList">
+					<td>{{project.price_description}}</td>
+					<td>{{project.price_amount}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</br>
+	<button type="button" class="col-xs-2 col-xs-push-4 col-sm-1 col-sm-push-5 col-md-1 col-md-push-5 col-lg-2 col-lg-push-5" id = "submitTotal" onclick="">设置模块</button>
+</body>
+<script type="text/javascript">
+	var feeFlag = 0;
+    var locals;
+
+    function validateNum(){
+
+
+
+        tempt = $("#num").val();       
+        return validateForm("#numForm", "#numWarnning", tempt, [checkEmptyForText, checkIsPosiveNum],[], [ "输入的报名人数不能为空", "输入的报名人数应为正数"]);
+    }
+
+
+    function validatePriceDesciption(){
+        tempt = $("#priceDesciption").val();
+
+        return validateForm("#priceDescriptionForm", "#priceDescriptionWarnning", tempt, [checkLength, checkEmptyForText],[512], [ "输入的费用描述过长", "输入的费用描述不能为空"]);
+    }
+
+    function validatePriceAmount(){
+
+        console.log($("#priceAmount"))
+
+        tempt = $("#priceAmount").val();
+        return validateForm("#priceAmountForm", "#priceAmountWarnning", tempt, [checkEmptyForText, checkIsPosiveNum],[], [ "输入的费用不能为空", "输入的费用应为正数"]);
+    }
+
+    function validateForSetModules()
+    {
+        var successFlag = 1;
+        if(validateNum() == 0)
+        {
+            successFlag = 0;
+        }
+        if(document.getElementById("costfee").checked)
+        {
+            if(validatePriceDesciption() == 0)
+            {
+                successFlag = 0;
+            }
+            else if(validatePriceAmount() == 0)
+            {
+                successFlag = 0;
+            }
+        }
+        return successFlag;
+    }
+
+    function validateForAddFee()
+    {
+        var successFlag = 1;
+        if(validatePriceDesciption() == 0)
+        {
+            successFlag = 0;
+        }
+        else if(validatePriceAmount() == 0)
+        {
+            successFlag = 0;
+        }
+        return successFlag;
+
+    }
+
+
+	function updateFeeTable()
+	{
+		if(document.getElementById("costfee").checked)
+		{
+            if(locals.priceInfo.length != 0)
+            {
+			$("#costFeeTable").css("display", "block");
+            }
+            $("#postCostFee").css("display", "block");
+		}
+		else
+		{
+			$("#costFeeTable").css("display", "none");
+            $("#postCostFee").css("display", "none");
+		}
+	}
+	$(function(){
+
+	
+		$("#forSignUp").attr("href", "/a/conf/signUpModule" + "?confid=" + urlParam.confid);
+		$("#forCheckMember").attr("href", "/a/conf/checkMember" + "?confid=" +  urlParam.confid);
+		$("#forRemindAdmin").attr("href", "/a/conf/remindAdmin" + "?confid=" + urlParam.confid);
+		
+		$("#submitTotal").on("click",function(){
+			var data1 = new Object();
+			var theList = new Array();
+            data1.priceList = []
+            data1.maxJoinNum = $("#num").val();
+            if(locals.isSet == 0)
+            {
+                if(validateForSetModules() == 1)
+                {
+			         if(document.getElementById("place").checked)
+			         {
+				        theList.push(1);
+			         }
+			         if(document.getElementById("mail").checked)
+			         {
+				        theList.push(2);
+			         }
+			         if(document.getElementById("company").checked)
+			         {
+				        theList.push(3);
+			         }
+			         if(document.getElementById("accomodation").checked)
+			         {
+				        theList.push(4);
+			         }
+			         if(document.getElementById("costfee").checked)
+			         {
+				        theList.push(5); 
+                        var tempt = new Object();
+                        tempt.price_description = $("#priceDesciption").val();
+                        tempt.price_amount = $("#priceAmount").val();
+                        data1.priceList.push(tempt);
+			         }
+			         data1.confid = urlParam.confid
+			         data1.moduleList = theList
+
+                     if(confirm("会议报名模块只能设置一次，确认要这样设置吗？") == true)
+                     {
+                        api.post("/api/a/conf/signUpMoudle/",data1,function(data){
+                            if(document.getElementById("#costfee").checked)
+                            {
+                                alert("设置报名需要的模块成功，可继续添加会议的费用项目")
+                            }
+                            else
+                            {
+                                alert("设置报名需要的模块成功")
+                            }
+                        window.open("/a/conf/signUpModule" + "?confid=" + urlParam.confid, "_self");
+                        },dftFail);
+
+                     }
+			         
+                }
+            }
+            else
+            {
+                if(validateForAddFee() == 1)
+                {
+                    data1 = new Object();
+                    data1.confid = urlParam.confid
+                    data1.price_description = $("#priceDesciption").val();
+                    data1.price_amount = $("#priceAmount").val();
+                    api.post("/api/a/conf/postFee/",data1,function(data){
+                    alert("设置费用成功,可继续设置下一项费用")
+                    $("#priceDesciption").val("");
+                    $("#priceAmount").val("");
+                    window.open("/a/conf/signUpModule" + "?confid=" + urlParam.confid, "_self");
+                    },dftFail);
+                }
+            }
+           
+		})
+
+
+		api.get("/api/a/conf/signUpMoudle/",{confid:urlParam.confid}, function(data){
+            console.log(data)
+
+			locals = data;
+            if(! locals.priceInfo)
+            {
+                locals.priceInfo = [];
+            }
+
+            var priceList = new Vue({
+                el:'.forRender',
+                data: {
+                    priceList:locals.priceInfo,
+                },
+                })
+			if(locals.isSet == 1)
+			{
+                $("#num").val(locals.maxJoinNum)
+                $("#num").attr("readonly", true)
+                $("#place").attr("disabled", true);
+                $("#mail").attr("disabled", true);
+                $("#company").attr("disabled", true);
+                $("#accomodation").attr("disabled", true);
+                $("#costfee").attr("disabled", true);
+        		for(i = 0; i < locals.moduleList.length; i++)
+        		{
+        			switch(locals.moduleList[i])
+        			{
+        				case 1:
+        					 $("#place").attr("checked", true);
+                             
+        					break;
+        				case 2:
+                            $("#mail").attr("checked", true);
+                             
+        					break;
+        				case 3:
+                            $("#company").attr("checked", true);
+                             
+        					break;
+        				case 4:
+                            $("#accomodation").attr("checked", true);
+                             
+        					break;
+        				case 5:
+                            $("#costfee").attr("checked", true);
+                            
+                            if(locals.priceInfo.length != 0)
+                            {
+                                $("#costFeeTable").css("display", "block");
+                            }
+                            $("#postCostFee").css("display", "block");
+        					break;
+        				case 6:
+        					break;
+        				default:
+        					break;
+        			}
+        		}
+                if(document.getElementById("costfee").checked)
+                {
+                    $("#submitTotal").text("添加费用");
+                }
+                else
+                {
+                    $("#submitTotal").css("display", "none");
+                }
+			}
+			
+
+		},dftFail)
+	})
+</script>
+</html>

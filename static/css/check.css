@@ -1,0 +1,39 @@
+#headtitle {
+	font-weight: bold;
+    height: 50px;
+    width: 100%;
+    line-height:50px;
+    background-color: #0080FF;
+}
+
+.textOne{
+	color:#ffffff;
+}
+
+#firstTable{
+	min-height: 400px;
+}
+
+body{
+	height:100%;
+}
+
+#details{
+	display:none;
+}
+
+#back{
+	margin-top:60px;
+	display:none;
+}
+
+button{
+	background: #1E90FF;
+	border: none;
+	padding: 10px 25px 10px 25px;
+	color: #FFF;
+	box-shadow: 1px 1px 5px #B6B6B6;
+	border-radius: 3px;
+	text-shadow: 1px 1px 1px #9E3F3F;
+	cursor: pointer;
+}

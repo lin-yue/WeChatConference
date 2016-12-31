@@ -1,0 +1,77 @@
+<!Doctype html>
+<html>
+<head>
+	<title>提醒列表</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--这里是外部css-->
+    <link rel="stylesheet" type="text/css" href="remindList.css">
+    <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="/js/base.js"></script>
+
+	<script type="text/javascript"></script>
+
+	
+
+
+	
+</head>
+<body>
+	<div id = "headtitle">{{confName}}</div>
+	<div id = "theMainTotal" class = "forRender">
+         <div v-for="remind in remindList">
+		<div class = "timeShow"><span class = "timeInside">{{remind.timeText}}</span></div>
+		<div class="remindList">{{remind.remind}}</div>
+        </div>
+	</div>
+    <script type="text/javascript">
+        var locals;
+        $(function(){
+            api.get('/api/u/conf/confReminds', {confid:urlParam.confid}, function(data){
+
+            
+        
+        locals = data;
+
+        for(i = 0; i < locals.reminds.length; i++)
+        {
+             updateDate(locals.reminds[i], 'publishTime');
+             console.log("record time")
+             console.log(locals.reminds[i])
+             locals.reminds[i].timeText = locals.reminds[i].publishTime.getFullYear()+"年"+locals.reminds[i].publishTime.getMonth()+"月"+locals.reminds[i].publishTime.getDate() + "日 " + locals.reminds[i].publishTime.getMinutes() + ":" ;
+             if(locals.reminds[i].publishTime.getSeconds() < 10)
+             {
+                locals.reminds[i].timeText = locals.reminds[i].timeText + "0" + locals.reminds[i].publishTime.getSeconds();
+             }
+             else
+             {
+                locals.reminds[i].timeText = locals.reminds[i].timeText  + locals.reminds[i].publishTime.getSeconds();
+             }
+
+        }
+
+        var remindList = new Vue({
+        el:'.forRender',
+        data: {
+            remindList:locals.reminds,
+        },
+        })
+        var confName = new Vue({
+        el:'#headtitle',
+        data: {
+            confName:locals.confname,
+        },
+        })
+        },dftFail)
+    })
+
+       
+    </script>
+</html>

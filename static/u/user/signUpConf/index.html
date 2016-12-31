@@ -9,125 +9,170 @@
     
     <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <!--这里是外部css-->
-    <link rel="stylesheet" type="text/css" href="css/signUp.css">
+    <link rel="stylesheet" type="text/css" href="/css/signUp.css">
     <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/js/base.js"></script>
+    <script src="/js/validate.js"></script>
 	<script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
-	<script type="text/javascript"></script>>
+	<script type="text/javascript"></script>
 	
 </head>
 <body>
-	<header>
-		<div class="text-center">
-			<h2 id="headOfMust">1.必填信息</h2>
-			<h2 id="headOfChose">2.选填信息</h2>
-			<h2 id="headOfMoney">3.费用处理</h2>
-		</div>
-	</header>
-	<form class="form-horizontal" role="form" name="UserForm">
+	<div id="headtitle">
+			<font face="Microsoft YaHei" class="textOne" id="headOfMust" size="4">1.必填信息</font>
+			<font face="Microsoft YaHei" class="textOne" id="headOfChose" size="4">2.选填信息</font>
+			<font face="Microsoft YaHei" class="textOne" id="headOfMoney" size="4">3.费用处理</font>
+	</div>
+	</br>
+	<form class="form-horizontal" role="form" name="UserForm" i>
 		<div id="mustGive">
-			<div class="form-group" >
+			<div class="form-group" id = "nameForm">
 				<label for="name" class="col-sm-1 col-md-1 col-lg-1 control-label">姓名</label>
 				<div class="col-sm-10 col-md-10 col-lg-10">
-					<input type="text" class="form-control" id="name" placeholder="请输入您的姓名" onblur="checkname()">
-				</div>
+					<input type="text" class="form-control" id="name" placeholder="请输入您的姓名" > <!-- onblur = "validateName()"> -->
+					<p class="help-block" id = "nameWarnning"></p>
+				</div>				
 			</div>
-			<div class="warning">
-				<p id="warningforname"></p>
-			</div>
+			
 			</br>
-			<div class="form-group">
+			<div class="form-group" id = "sexForm">
 				<label class="col-sm-1 col-md-1 col-lg-1 control-label">性别</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
 				<label class="checkbox-inline">
-				    <input type="radio" name="optionsRadiosinline" id="optionsRadios1" value="option1" checked>男
+				    <input type="radio" name="optionsRadiosinline" class = "sexRadio" id="optionsRadios1" value="option1" onblur = "validateSex()" checked>男
 				</label>
 				<label class="checkbox-inline">
-					<input type="radio" name="optionsRadiosinline" id="optionsRadios2"  value="option2">女
+					<input type="radio" name="optionsRadiosinline" class = "sexRadio" id="optionsRadios2" onblur = "validateSex()" value="option2">女
+					
 				</label>
+				<p class="help-block" id = "sexWarnning"></p>
+				</div>
+				
 			</div>
 			</br>
-			<div class="form-group">
+			<div class="form-group" id="phoneForm">
 				<label for="phone" class="col-sm-1 col-md-1 col-lg-1 control-label">手机号码</label>
 				<div class="col-sm-10 col-md-10 col-lg-10">
-					<input type="text" class="form-control" id="phone"placeholder="请输入您的手机号码，以便联系">
+					<input type="text" class="form-control" id="phone"placeholder="请输入您的手机号码，以便联系" onblur = "validatePhone()">
+					<p class="help-block" id = "phoneWarnning" ></p>
+				</div>
+			</div>
+			</br>
+			<div class="form-group" id="emailForm">
+				<label for="email" class="col-sm-1 col-md-1 col-lg-1 control-label">邮箱地址</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+					<input type="text" class="form-control" id="email"placeholder="请输入您的邮箱地址，以便联系" onblur = "validateEmail()">
+					<p class="help-block" id = "emailWarnning"></p>
 				</div>
 			</div>
 			</br>
 			<div class="form-group">
-				<label for="email" class="col-sm-1 col-md-1 col-lg-1 control-label">邮箱地址</label>
-				<div class="col-sm-10 col-md-10 col-lg-10">
-					<input type="text" class="form-control" id="email"placeholder="请输入您的邮箱地址，以便联系">
-				</div>
+			<label class="col-sm-1 col-md-1 col-lg-1 control-label"></label>
+			<div class="col-sm-10 col-md-10 col-lg-10">
+			<p class="help-block" id = "step1Warnning"></p>
 			</div>
-			</br>
+			</div>
 		</div>
 		<div id="choseGive">
+		<div id = "address1">
 			<div v-if="countryIf == 1" class="form-group" id="countryIf">
 				<label for="country" class="col-sm-1 col-md-1 col-lg-1 control-label">国家</label>
 				<div class="col-sm-10 col-md-10 col-lg-10">
-					<select>
+					<select id = "contryList" onblur = "validateCountry()">
 						<option>选择您的国家</option>
 					    <option value="China">中国</option>
 					    <option value="USA">美国</option>
 					    <option value="Japan">日本</option>
 					    <option value="Russian">俄罗斯</option>
 					</select>
+					<p class="help-block" id = "countryWarnning"></p>
+					</br>
+
 				</div>
 			</div>
-			</br>
+
+
 			<div v-if="liveplaceIf == 1" class="form-group" id="liveplaceIf">
 				<label for="liveplace" class="col-sm-1 col-md-1 col-lg-1 control-label">详细住址</label>
 				<div class="col-sm-10 col-md-10 col-lg-10">
-					<input type="text" class="form-control" id="liveplace" placeholder="请输入您的详细住址">
+					<input type="text" class="form-control" id="liveplace" placeholder="请输入您的详细住址" onblur = "validateLivePlace()">
+					<p class="help-block" id = "liveplaceWarnning"></p>
+					</br>
 				</div>
+				
 			</div>
-			</br>
+		</div>
+		<div id= "postCode1">
 			<div v-if="mailIf == 1" class="form-group" id="mailIf">
 				<label for="mail" class="col-sm-1 col-md-1 col-lg-1 control-label">邮政编码</label>
 				<div class="col-sm-10 col-md-10 col-lg-10">
-					<input type="text" class="form-control" id="mail" placeholder="请输入您的邮政编码">
+					<input type="text" class="form-control" id="mail" placeholder="请输入您的邮政编码" onblur = "validateMail()">
+					<p class="help-block" id = "mailWarnning"></p>
+					</br>
 				</div>
+				
 			</div>
-			</br>
+		</div>
+		<div id = "bussiness1">
 			<div v-if="companynameIf == 1" class="form-group" id="companynameIf">
 				<label for="companyname" class="col-sm-1 col-md-1 col-lg-1 control-label">单位名称</label>
 				<div class="col-sm-10 col-md-10 col-lg-10">
-					<input type="text" class="form-control" id="companyname" placeholder="请输入您的工作单位名称">
+					<input type="text" class="form-control" id="companyname" placeholder="请输入您的工作单位名称" onblur = "validateCompanyName()">
+					<p class="help-block" id = "companynameWarnning"></p>
+					</br>
 				</div>
+				
 			</div>
-			</br>
 			<div v-if="companyplaceIf == 1" class="form-group" id="companyplaceIf">
 				<label for="companyplace" class="col-sm-1 col-md-1 col-lg-1 control-label">单位地址</label>
 				<div class="col-sm-10 col-md-10 col-lg-10">
-					<input type="text" class="form-control" id="companyplace" placeholder="请输入您的工作单位地址">
+					<input type="text" class="form-control" id="companyplace" placeholder="请输入您的工作单位地址" onblur = "validateCompanyPlace()">
+					<p class="help-block" id = "companyplaceWarnning"></p>
+					</br>
 				</div>
+				
 			</div>
-			</br>
 			<div v-if="companydutyIf == 1" class="form-group" id="companydutyIf">
 				<label for="companyduty" class="col-sm-1 col-md-1 col-lg-1 control-label">职务</label>
 				<div class="col-sm-10 col-md-10 col-lg-10">
-					<input type="text" class="form-control" id="companyduty" placeholder="请输入您在所在单位的职务">
+					<input type="text" class="form-control" id="companyduty" placeholder="请输入您在所在单位的职务" onblur = "validateCompanyDuty()">
+					<p class="help-block" id = "companydutyWarnning"></p>
+					</br>
 				</div>
-			</div>
-			</br>
-			<div v-if="wheretoliveIf == 1" class="form-group" id="wheretoliveIf">
-				<label class="col-sm-1 col-md-1 col-lg-1 control-label">理想住宿费用</label>
-				<label class="checkbox-inline">
-				    <input type="radio" name="optionsRadiosinline" id="optionsRadios1" value="option1" checked>0~200 RMB
-				</label>
-				<label class="checkbox-inline">
-					<input type="radio" name="optionsRadiosinline" id="optionsRadios2"  value="option2">200~400 RMB
-				</label>
-				<label class="checkbox-inline">
-					<input type="radio" name="optionsRadiosinline" id="optionsRadios3"  value="option3">400~600 RMB
-				</label>
-				<label class="checkbox-inline">
-					<input type="radio" name="optionsRadiosinline" id="optionsRadios4"  value="option4">600 RMB 以上
-				</label>
+				
 			</div>
 		</div>
-		<div id="feeGive">
+		<div id="accomodation1">
+			<div v-if="wheretoliveIf == 1" class="form-group" id="wheretoliveIf" >
+				<label class="col-sm-1 col-md-1 col-lg-1 control-label">理想住宿费用</label>
+				<label class="checkbox-inline accomRadio">
+				    <input type="radio" name="optionsRadiosinline" id="optionsRadios3"   value="option1" onblur= "validateAccommodation()" checked>0~200 RMB
+				</label>
+				<label class="checkbox-inline accomRadio">
+					<input type="radio" name="optionsRadiosinline" id="optionsRadios4"   value="option2" onblur= "validateAccommodation()" >200~400 RMB
+				</label>
+				<label class="checkbox-inline accomRadio">
+					<input type="radio" name="optionsRadiosinline" id="optionsRadios5"   value="option3" onblur= "validateAccommodation()" >400~600 RMB
+				</label>
+				<label class="checkbox-inline accomRadio">
+					<input type="radio" name="optionsRadiosinline" id="optionsRadios6"   value="option4" onblur= "validateAccommodation()" >600 RMB 以上
+				</label>
+				<div class="col-sm-10 col-md-10 col-lg-10">
+				<p class="help-block" id = "accommodationWarnning"></p>
+				</div>
+				</br>
+			</div>
+		</div>
+			<div class="form-group">
+			<label class="col-sm-1 col-md-1 col-lg-1 control-label"></label>
+			<div class="col-sm-10 col-md-10 col-lg-10">
+			<p class="help-block" id = "step2Warnning"></p>
+			</div>
+			</div>
+		</div>
+		<div v-if="feeGive == 1" id="feeGive">
 			<div class="table-responsive">
 				<table class="table table-bordered table-striped" id="moneylist">
 					<thead>
@@ -139,86 +184,60 @@
 						<tr v-for="projectForMoney in projects">
 							<td class="list1">{{projectForMoney.name}}</td>
 							<td v-bind:id="projectForMoney.id" class="list2">{{projectForMoney.money}} RMB</td>
-							<td class="list3"><input type="checkbox" v-on:click="showWholeMoney(projectForMoney.money)"></td>
+							<td class="list3"><input v-bind:id= "projectForMoney.select_id" type="checkbox" v-on:click="showWholeMoney(projectForMoney.money, projectForMoney.select_id)" /></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<div>
-				<p id="moneyTitle">总费用</p>
+			<div style="text-align: center">
+				<p id="moneyTotle">总费用</p>
 				<input type="text" value="0" id="wholeMoney">
+			</div>
+			</br>
+			<div class="form-group">
+			<label class="col-sm-1 col-md-1 col-lg-1 control-label"></label>
+			<div class="col-sm-10 col-md-10 col-lg-10">
+			<p class="help-block" id = "step3Warnning"></p>
+			</div>
 			</div>
 		</div>
 	</form>
-	<button type="button" id="nextstep1" class="btn btn-primary col-xs-4 col-xs-push-4 col-sm-1 col-sm-push-5 col-md-1 col-md-push-5 col-lg-4 col-lg-push-4" onclick="changeToSecondNext()">下一步</button>
-	<button type="button" id="beforestep1" class="btn btn-primary col-xs-3 col-xs-push-2 col-sm-1 col-sm-push-3 col-md-1 col-md-push-3 col-lg-1 col-lg-push-4" onclick="changeToFirstBefore()">上一步</button>
-	<button type="button" id="nextstep2" class="btn btn-primary col-xs-3 col-xs-push-4 col-sm-1 col-sm-push-6 col-md-1 col-md-push-6 col-lg-1 col-lg-push-6" onclick="changeToThirdNext()">下一步</button>
-	<button type="button" id="beforestep2" class="btn btn-primary col-xs-3 col-xs-push-2 col-sm-1 col-sm-push-3 col-md-1 col-md-push-3 col-lg-1 col-lg-push-4" onclick="changeToSecondBefore()">上一步</button>
-	<button type="button" id="nextstep3" class="btn btn-primary col-xs-3 col-xs-push-4 col-sm-1 col-sm-push-6 col-md-1 col-md-push-6 col-lg-1 col-lg-push-6" onclick="changeToThirdNext()">报名交费</button>
+	<button type="button" id="nextstep1" class=" col-xs-4 col-xs-push-4 col-sm-1 col-sm-push-5 col-md-1 col-md-push-5 col-lg-4 col-lg-push-4" >下一步</button>
+	<button type="button" id="beforestep1" class="col-xs-3 col-xs-push-2 col-sm-1 col-sm-push-3 col-md-1 col-md-push-3 col-lg-1 col-lg-push-4" >上一步</button>
+	<button type="button" id="nextstep2" class="col-xs-3 col-xs-push-4 col-sm-1 col-sm-push-6 col-md-1 col-md-push-6 col-lg-1 col-lg-push-6" >下一步</button>
+	<button type="button" id="beforestep2" class="col-xs-3 col-xs-push-2 col-sm-1 col-sm-push-3 col-md-1 col-md-push-3 col-lg-1 col-lg-push-4" >上一步</button>
+	<button type="button" id="nextstep3" class="col-xs-3 col-xs-push-4 col-sm-1 col-sm-push-6 col-md-1 col-md-push-6 col-lg-1 col-lg-push-6" >报名交费</button>
 </body>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script>
-	var countryIf = new Vue({
-		el:'#countryIf',
-		data:{
-			countryIf:1,
-		}
-	});
-	var mailIf= new Vue({
-		el:'#mailIf',
-		data:{
-			mailIf:1,
-		}
-	});
-	var liveplace = new Vue({
-		el:'#liveplaceIf',
-		data:{
-			liveplaceIf:1,
-		}
-	});
-	var companynameIf = new Vue({
-		el:'#companynameIf',
-		data:{
-			companynameIf:1,
-		}
-	});
-	var companyplaceIf = new Vue({
-		el:'#companyplaceIf',
-		data:{
-			companyplaceIf:1,
-		}
-	});
-	var companydutyIf = new Vue({
-		el:'#companydutyIf',
-		data:{
-			companydutyIf:1,
-		}
-	});
-	var liveplaceIf = new Vue({
-		el:'#liveplaceIf',
-		data:{
-			liveplaceIf:1,
-		}
-	});
-	var feeGive = new Vue({
-		el:'#feeGive',
-		data:{
-			projects:[
-				{name:'吃',money:'13',id:'1'},{name:'喝',money:'31',id:'2'},
-			]
-		}
-	})
+	
 </script>
-<script type="text/javascript">
+<script>
 
-    var x = document.getElementById("wholeMoney");
-	function showWholeMoney(z){
-		var y = parseInt(x.value);
-		y = y + parseInt(z);
-		x.value = y;
-	}
+	var locals;
+	var hasSecondStep = 0;
+	var hasThirdStep = 0;
+	var sexCheckState = 0;
+	var accomodationState = 0;
 
-	function changeToSecondNext(){
+
+	var step1Validated = 0;
+	var step2Validated = 0;
+	var step3Validated = 0;
+
+	var ERROR_Empty = -1;
+	var ERROR_TooLong = -2;
+	var ERROR_NotNumber = -3;
+
+
+
+
+	
+
+	function changeToSecondNext(){  //跳到第二步
+
+		console.log(hasSecondStep);
+		
 		document.getElementById("mustGive").style.display = "none";
 		document.getElementById("headOfMust").style.display = "none";
 		document.getElementById("headOfChose").style.display = "block";
@@ -226,9 +245,31 @@
 		document.getElementById("nextstep1").style.display = "none";
 		document.getElementById("nextstep2").style.display = "block";
 		document.getElementById("beforestep1").style.display = "block";
+
+		if(document.getElementById("optionsRadios3"))
+		{
+
+		if(accomodationState== 1)
+		{
+			document.getElementById("optionsRadios3").checked = true;
+		}
+		else if(accomodationState == 2)
+		{
+			document.getElementById("optionsRadios4").checked = true;
+		}	
+		else if(accomodationState == 3)
+		{
+			document.getElementById("optionsRadios5").checked = true;
+		}
+		else if(accomodationState == 4)
+		{
+			document.getElementById("optionsRadios6").checked = true;
+		}
+		}
 	}
 
-	function changeToFirstBefore(){
+	function changeToFirstBefore(){ //跳到第一步
+
 		document.getElementById("mustGive").style.display = "block";
 		document.getElementById("headOfMust").style.display = "block";
 		document.getElementById("headOfChose").style.display = "none";
@@ -236,9 +277,19 @@
 		document.getElementById("nextstep1").style.display = "block";
 		document.getElementById("nextstep2").style.display = "none";
 		document.getElementById("beforestep1").style.display = "none";
+		if(sexCheckState == 0)
+		{
+			document.getElementById("optionsRadios2").checked = true;
+		}
+		else if(sexCheckState == 1)
+		{
+			document.getElementById("optionsRadios1").checked = true;
+		}
 	}
 
 	function changeToThirdNext(){
+
+
 		document.getElementById("feeGive").style.display = "block";
 		document.getElementById("headOfMoney").style.display = "block";
 		document.getElementById("mustGive").style.display = "none";
@@ -264,7 +315,622 @@
 		document.getElementById("beforestep1").style.display = "block";
 		document.getElementById("beforestep2").style.display = "none";
 		document.getElementById("nextstep3").style.display = "none";
-		document.getElementById("feeGive").style.display = "none";	
+		document.getElementById("feeGive").style.display = "none";
+
+		if(document.getElementById("optionsRadios3"))
+		{
+
+		if(accomodationState== 1)
+		{
+			document.getElementById("optionsRadios3").checked = true;
+		}
+		else if(accomodationState == 2)
+		{
+			document.getElementById("optionsRadios4").checked = true;
+		}	
+		else if(accomodationState == 3)
+		{
+			document.getElementById("optionsRadios5").checked = true;
+		}
+		else if(accomodationState == 4)
+		{
+			document.getElementById("optionsRadios6").checked = true;
+		}
+		}
 	}
+	
+
+
+	function submitSignUp(){
+
+		var data1 = Object();
+		console.log(urlParam);
+		data1.confid = urlParam.confid;
+		data1.userid = urlParam.userid;
+		data1.name = $("#name").val();
+
+		data1.sex = sexCheckState;
+		data1.telephone = $("#phone").val();
+		data1.email = $("#email").val();
+
+		var i =0;
+
+		for(i =0; i < locals.moduleList.length; i++)
+		{
+			switch(locals.moduleList[i])
+			{
+				case 1:
+					data1.country = document.getElementById('contryList').selectedIndex;
+					//console.log(document.getElementById('contryList').selectedIndex)
+					data1.address = $("#liveplace").val();
+					break;
+			    case 2:
+			    	data1.postcode = $("#mail").val();
+					break;
+				case 3:
+					data1.company_name =  $("#companyname").val();;
+					data1.company_address =  $("#companyplace").val();;
+					data1.company_job =  $("#companyduty").val();;
+						break;
+				case 4:
+					data1.accommodation_type = accomodationState;
+						break;
+				case 5:
+				   data1.cost_type = 1;
+				   data1.user_pay_status = 0;
+				   data1.priceList = new Array();
+				   for(j = 0; j < locals.priceInfo.length; j++)
+				   {
+						if(document.getElementById(locals.priceInfo[j].select_id).checked)
+						{
+							data1.priceList.push(Number(locals.priceInfo[j].select_id.slice(locals.priceInfo[j].select_id.indexOf("_") + 1)));
+						}
+				   }
+				   break;
+				case 6:
+				   //data1.extra_description;
+						break;
+		  }
+
+		}
+	
+
+		api.post("/api/u/user/signUpConf",data1, function(data){
+
+			alert("报名成功，请等待审核结果");
+			window.open("/u/conf/detail?confid=" + String(urlParam.confid) + "&userid=" + String(urlParam.userid), "_self");
+
+    	},failToSignUp);
+	}
+
+	function failToSignUp(errno, errmsg, e){
+		if(errno == 6 && errmsg == "审核通过")
+		{
+			alert("您已完成此会议的报名，将跳转到会议详情页");
+			window.open("http://m2.huiplus.com.cn/app/#/confinfo/" + String(urlParam.confid), "_self");
+			return;
+		}
+		else if(errno == 6)
+        {
+            alert("您正在等待审核，将跳转到会议基本介绍页");
+			window.open("/u/conf/detail?confid=" + String(urlParam.confid) + "&userid=" + String(urlParam.userid), "_self");
+        }
+		else
+		{
+			dftFail(errno, errmsg, e);
+            window.open("/u/conf/detail?confid=" + String(urlParam.confid) + "&userid=" + String(urlParam.userid), "_self");
+		}
+	}
+
+	function failAndBack(errno, errmsg, e){
+		alert("加载失败: [" + errno + "] " + errmsg + " " + "\n请重试");
+		window.open(("/u/conf/detail?" + "confid=" +String(urlParam.confid) + "&" + "userid="+String(urlParam.userid)), "_self");
+
+	}
+
+	function btn1click()  //nextstep1
+	{
+		console.log("btn1clicked")
+		if(validateStep1() == 1)
+		{
+			if(hasSecondStep == 0 && hasThirdStep == 0)
+			{
+				submitSignUp();
+			}
+			else if(hasSecondStep == 0)
+			{
+				changeToThirdNext();
+			}
+			else
+			{
+				changeToSecondNext();
+			}
+		}
+	}
+
+	function btn2click() //beforestep1
+	{
+		changeToFirstBefore();
+	}
+
+	function btn3click() //nextstep2
+	{
+		if(validateStep2() == 1)
+		{
+			if(hasThirdStep == 0)
+			{
+				submitSignUp();
+			}
+			else
+			{
+				changeToThirdNext();
+			}
+		}
+
+	}
+
+	function btn4click()  //beforestep2
+	{
+		if(hasSecondStep == 0)
+		{
+			changeToFirstBefore();
+		}
+		else
+		{
+			changeToSecondBefore();
+		}
+
+	}
+
+	function btn5click() //nextstep3
+	{
+		if(validateStep3() == 1)
+		{
+			submitSignUp();
+		}
+	}
+
+	
+	
+
+function storeSexState(){
+
+		if(document.getElementById("optionsRadios1").checked)
+		{
+			sexCheckState = 1;
+		}
+		else if(document.getElementById("optionsRadios2").checked)
+		{
+			sexCheckState = 0;
+		}
+		else
+		{
+			sexCheckState = -1;
+		}
+}
+
+
+function storeAccomState(){
+
+	if(document.getElementById("optionsRadios3"))
+	{
+
+	if(document.getElementById("optionsRadios3").checked)
+		{
+			accomodationState = 1;
+		}
+		else if(document.getElementById("optionsRadios4").checked)
+		{
+			accomodationState = 2;
+		}
+		else if(document.getElementById("optionsRadios5").checked)
+		{
+			accomodationState = 3;
+		}
+		else if(document.getElementById("optionsRadios6").checked)
+		{
+			accomodationState = 4;
+		}
+		else
+		{
+			accomodationState = -1;
+		}
+	}
+}
+
+/*#name 128
+sex 单选
+#phone 64
+#email 128 
+#countryIf 下拉框
+#liveplace 详细住址 256
+#mail 邮政编码 64
+#companyname 单位名称 128
+#companyplace 单位名称 128
+#companyduty 128
+
+#wheretoliveIf 选择框*/
+	
+
+	
+
+	function validateName(){
+
+
+		tempt = $("#name").val();
+		$("#step1Warnning").text("");
+		return validateForm("#nameForm", "#nameWarnning", tempt, [checkLength,checkEmptyForText],[128], ["输入的名字过长", "输入的名字不能为空"]);
+
+	}
+
+	function validateSex(){
+
+		var tempt;
+		if(document.getElementById("optionsRadios1").checked)
+		{
+			tempt = 1;
+		} 
+		else if(document.getElementById("optionsRadios2").checked)
+		{
+			tempt = 0;
+		}
+		else
+		{
+			tempt = -1;
+		}
+		$("#step1Warnning").text("");
+		return validateForm("#sexForm", "#sexWarnning", tempt, [checkEmptyForSelectOrRadio],[], ["请选择您的性别"]);
+	}
+
+	function validatePhone(){
+
+		tempt = $("#phone").val();
+		$("#step1Warnning").text("");
+		return validateForm("#phoneForm", "#phoneWarnning", tempt, [checkLength,checkEmptyForText, checkIsNum],[64], ["输入的电话号码过长", "输入的电话号码不能为空", "输入的电话号码格式不正确"]);
+	}
+
+	function validateEmail(){
+
+		tempt = $("#email").val();
+		$("#step1Warnning").text("");
+		return validateForm("#emailForm", "#emailWarnning", tempt, [checkLength,checkEmptyForText],[128], ["输入的邮箱过长", "输入的邮箱不能为空" ]);
+
+	}
+
+	function validateCountry(){
+
+		tempt = document.getElementById('contryList').selectedIndex;
+		if(tempt == 0)
+		{
+			tempt = -1;
+		}
+		$("#step2Warnning").text("");
+		return validateForm("#countryIf", "#countryWarnning", tempt, [checkEmptyForSelectOrRadio],[], ["请选择您的国家"]);
+	}
+
+	function validateLivePlace(){
+
+
+		tempt = $("#liveplace").val();
+		$("#step2Warnning").text("");
+		return validateForm("#liveplaceIf", "#liveplaceWarnning", tempt, [checkLength,checkEmptyForText],[256], ["输入的地址过长", "输入的地址不能为空"]);
+
+	}
+
+	function validateMail(){
+
+		tempt = $("#mail").val();
+		$("#step2Warnning").text("");
+		return validateForm("#mailIf", "#mailWarnning", tempt, [checkLength,checkEmptyForText],[64], ["输入的邮编过长", "输入的邮编不能为空"]);
+
+	}
+
+	function validateCompanyName(){
+
+		tempt = $("#companyname").val();
+		$("#step2Warnning").text("");
+		return validateForm("#companynameIf", "#companynameWarnning", tempt, [checkLength,checkEmptyForText],[128], ["输入的公司名称过长", "输入的公司名称不能为空"]);
+
+	}
+
+	function validateCompanyPlace(){
+
+		tempt = $("#companyplace").val();
+		$("#step2Warnning").text("");
+		return validateForm("#companyplaceIf", "#companyplaceWarnning", tempt, [checkLength,checkEmptyForText],[128], ["输入的公司地址过长", "输入的公司地址不能为空"]);
+
+	}
+
+	function validateCompanyDuty(){
+
+		tempt = $("#companyduty").val();
+		$("#step2Warnning").text("");
+		return validateForm("#companydutyIf", "#companydutyWarnning", tempt, [checkLength,checkEmptyForText],[128], ["输入的公司职务过长", "输入的公司职务不能为空"]);
+
+	}
+
+	function validateAccommodation(){
+
+		var tempt;
+
+		if(document.getElementById("optionsRadios3").checked || document.getElementById("optionsRadios4").checked || document.getElementById("optionsRadios5").checked || document.getElementById("optionsRadios6").checked)
+		{
+			tempt = 1;
+		}
+		else
+		{
+			tempt = -1;
+		}
+		$("#step2Warnning").text("");
+		return validateForm("#wheretoliveIf", "#accommodationWarnning", tempt, [checkEmptyForSelectOrRadio],[], ["输入的期望住宿条件不能为空"]);
+
+	}
+
+	function validateCost(){
+
+	}
+
+	function validateStep1(){
+		var successFlag1 = 1;
+		if(validateName() == 0)
+		{
+			successFlag1 = 0;
+		}
+		if(validateEmail() == 0)
+		{
+			successFlag1 = 0;
+		}
+		if(validateSex() == 0)
+		{
+			successFlag1 = 0;
+		}
+		if(validatePhone() == 0)
+		{
+			successFlag1 = 0;
+		}
+		if(successFlag1 == 0)
+		{
+			$("#step1Warnning").text("第一步填写的部分内容有错误，请检查后继续");
+
+		}
+		step1Validated = successFlag1;
+		return successFlag1;
+	}
+
+	function validateStep2()
+	{
+		var successFlag1 = 1;
+		for(i = 0; i < locals.moduleList.length; i++)
+		{
+			switch(locals.moduleList[i])
+			{
+				case 1:
+					if(validateCountry() == 0)
+					{
+						successFlag1 = 0;
+					}
+					if(validateLivePlace() == 0)
+					{
+						successFlag1 = 0;
+					}
+					break;
+			    case 2:
+			    	if(validateMail() == 0)
+					{
+						successFlag1 = 0;
+					}
+					break;
+				case 3:
+					if(validateCompanyName() == 0)
+					{
+						successFlag1 = 0;
+					}
+					if(validateCompanyPlace() == 0)
+					{
+						successFlag1 = 0;
+					}
+					if(validateCompanyDuty() == 0)
+					{
+						successFlag1 = 0;
+					}
+					break;
+				case 4:
+					if(validateAccommodation() == 0)
+					{
+						successFlag1 = 0;
+					}
+						break;
+				default:
+					break;
+		  }
+		}
+		if(successFlag1 == 0)
+		{
+			$("#step2Warnning").text("第二步填写的部分内容有错误，请检查后继续");
+
+		}
+		step2Validated = successFlag1;
+		return successFlag1;
+	}
+
+	function validateStep3()
+	{
+		return 1;
+	}
+	
+
+
+
+	$(function(){
+
+		api.get("/api/u/user/signUpConf",{confid: urlParam.confid, userid: urlParam.userid}, function(data){
+        locals = data;
+        if(!locals.priceInfo)
+        {
+        	locals.priceInfo = [];
+        }
+
+    	var countryIf1 = 0;
+		var mailIf1= 0;
+		var companynameIf1 = 0;
+		var companyplaceIf1 = 0;
+		var companydutyIf1 = 0;
+		var liveplaceIf1 = 0;
+		var feeGive1 = 0;
+		var wheretoliveIf1 = 0;
+		var extraInfoIf1 = 0;
+
+
+        var i, j;
+        hasSecondStep = 0;
+        hasThirdStep = 0;
+        var hasMoudle = 0;
+        for(i = 1; i <= 5; i++)
+        {
+        	hasMoudle = 0;
+        	for(j = 0; j < locals.moduleList.length; j++)
+        	{
+        		if(locals.moduleList[j] == i)
+        		{
+        			hasMoudle = 1;
+        			if(i != 5)
+        			{
+        				hasSecondStep = 1;
+        			}
+        			else
+        			{
+        				hasThirdStep = 1;
+        			}
+        		}
+        	}
+
+        	if(hasMoudle == 1)
+        	{
+        		switch(i)
+            	{
+                case 1:
+                	countryIf1 = 1;
+                	liveplaceIf1 = 1;
+                	                
+                    break;
+                case 2:
+					mailIf1= 1;                   
+                    break;
+                case 3:
+					companynameIf1 = 1;
+					companyplaceIf1 = 1;
+					companydutyIf1 = 1;					
+					                   
+                    break;
+                case 4:
+                	wheretoliveIf1 = 1;                    
+                    break;
+                case 5:
+                	feeGive1 = 1;                    
+                    break;
+                case 6:
+                	extraInfoIf1 = 1;                    
+                    break;
+                default:
+                    alert("抱歉，服务器内部出现错误")
+                    window.open(("/u/conf/detail?" + String(urlParam.confid) + "&" + String(urlParam.userid)), "_self");
+                    break;
+            	}
+        	}    
+        }
+        if(hasSecondStep == 0 && hasThirdStep == 0)
+        {
+            $("#nextstep1").text("报名");
+        }
+        else if(hasThirdStep == 0) {
+            $("#nextstep2").text("报名");
+        }
+
+
+
+    var countryIf = new Vue({
+		el:'#countryIf',
+		data:{
+			countryIf:countryIf1,
+		}
+	});
+	var mailIf= new Vue({
+		el:'#mailIf',
+		data:{
+			mailIf:mailIf1,
+		}
+	});
+	var liveplace = new Vue({
+		el:'#liveplaceIf',
+		data:{
+			liveplaceIf:liveplaceIf1,
+		}
+	});
+	var companynameIf = new Vue({
+		el:'#companynameIf',
+		data:{
+			companynameIf:companynameIf1,
+		}
+	});
+	var companyplaceIf = new Vue({
+		el:'#companyplaceIf',
+		data:{
+			companyplaceIf:companyplaceIf1,
+		}
+	});
+	var companydutyIf = new Vue({
+		el:'#companydutyIf',
+		data:{
+			companydutyIf:companydutyIf1,
+		}
+	});
+	var wheretoliveIf = new Vue({
+		el:'#wheretoliveIf',
+		data:{
+			wheretoliveIf:wheretoliveIf1,
+		}
+	});
+	var feeGive = new Vue({
+		el:'#feeGive',
+		data:{
+			feeGive:feeGive1,
+			projects:locals.priceInfo,
+		},
+		methods:{
+			showWholeMoney:function(x, y){
+				var z = document.getElementById("wholeMoney");
+				if(document.getElementById(y).checked){
+				    var m = parseInt(z.value);
+				    m += parseInt(x);
+				    z.value = m;
+				}
+				else{
+					var m = parseInt(z.value);
+				    m -= parseInt(x);
+				    z.value = m;
+				}
+			}
+		}
+	})
+
+    }, failToSignUp)
+
+		$("#name").on("blur", function(){
+			validateName();
+		});
+
+
+		$(".sexRadio").on("click", storeSexState);
+		$("#nextstep2").on("click", storeAccomState);
+		$("#beforestep1").on("click", storeAccomState);
+		$("#nextstep1").on("click", btn1click);
+		$("#beforestep1").on("click",btn2click);
+        $("#nextstep2").on("click",btn3click);
+        $("#beforestep2").on("click",btn4click);
+        $("#nextstep3").on("click",btn5click);
+
+
+	})
+
 </script>
 </html>

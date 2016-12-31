@@ -96,6 +96,9 @@ class WeChatHandler(object):
     def url_image(self, imageName):
         return SITE_DOMAIN + "/img/" + imageName
 
+    def url_userRemind(self,  userid):
+        return settings.get_url('u/user/remindConferences', {'userid': userid})
+
         #添加会议列表表尾，confList为添加到的列表， list为待判断的输入列表，totalRecords为总记录数,pageNum为当前页数
     def judgeConfBelongAndSetUrl(self, confid):
         confs = myAllConfs(self.user.userid)
@@ -114,21 +117,21 @@ class WeChatHandler(object):
             confList.append({
                 'Title': "*共1页(" + str(totalRecords) + "条)记录*",
                 # 'Description': tickets[tic].activity.description,
-                'PicUrl': self.url_image("rabit2.png"),
+                'PicUrl': self.url_image("pageFinal.png"),
                 'Url': "",
             })
         elif len(list) <= 8:
             confList.append({
                 'Title': "*最后一页* 向上滑动可查看之前内容",
                 # 'Description': tickets[tic].activity.description,
-                'PicUrl': self.url_image("rabit2.png"),
+                'PicUrl': self.url_image("pageFinal.png"),
                 'Url': "",
             })
         else:
             confList.append({
                 'Title': "*第" + str(pageNum) + "页* 输入‘next’查看下一页",
                 # 'Description': tickets[tic].activity.description,
-                'PicUrl': self.url_image("rabit1.png"),
+                'PicUrl': self.url_image("pageDown.png"),
                 'Url': "",
             })
         return confList
@@ -136,15 +139,20 @@ class WeChatHandler(object):
     def showInitialPageAndUpdateUserState(self, list1, totalRecords, conferenceType, searchContent):
 
         content = ""
+        pageUrl = ""
         if(conferenceType == CONFERENCELIST_RECENT):
             self.user.pageState = self.user.PAGE_RECENTCONF;
+            pageUrl = self.url_image("recentConfs.png")
         elif (conferenceType == CONFERENCELIST_ALL):
             self.user.pageState = self.user.PAGE_ALLCONF;
+            pageUrl = self.url_image("allConfs.png")
         elif (conferenceType == CONFERENCELIST_MY):
             self.user.pageState = self.user.PAGE_MYCONF;
+            pageUrl = self.url_image("myConfs.png")
         elif (conferenceType == CONFERENCELIST_SEARCH):
             self.user.pageState = self.user.PAGE_SERACHCONF;
             self.user.searchWords = searchContent
+            pageUrl = self.url_image("searchConfs.png")
         self.user.pageNum = 1
         self.user.save()
 
@@ -154,14 +162,14 @@ class WeChatHandler(object):
             confList.append({
                 'Title': "**共有"+str(totalRecords)+"个会议**",
                 # 'Description': tickets[tic].activity.description,
-                'PicUrl': self.url_image("rabit1.png"),
+                'PicUrl': pageUrl,
                 'Url': "",
             })
         else:
             confList.append({
                 'Title': "含"+self.user.searchWords+"的会议结果（共"+str(totalRecords)+"个）",
                 # 'Description': tickets[tic].activity.description,
-                'PicUrl': self.url_image("rabit1.png"),
+                'PicUrl': pageUrl,
                 'Url': "",
             })
         print(list1[:8])
@@ -312,7 +320,6 @@ class WeChatLib(object):
         )
         rjson = json.loads(res)
         return rjson.get('menu', {}).get('button', [])
-
     @classmethod
     def getUnionId(cls, openId):
 

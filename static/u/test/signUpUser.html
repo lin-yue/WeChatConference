@@ -9,22 +9,21 @@
     
     <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <!--这里是外部css-->
-    <link rel="stylesheet" type="text/css" href="css/signUp.css">
+    <link rel="stylesheet" type="text/css" href="signUp.css">
     <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 
-	<script type="text/javascript"></script>>
+	<script type="text/javascript"></script>
 	
 </head>
 <body>
-	<header>
-		<div class="text-center">
-			<h2 id="headOfMust">1.必填信息</h2>
-			<h2 id="headOfChose">2.选填信息</h2>
-			<h2 id="headOfMoney">3.费用处理</h2>
-		</div>
-	</header>
+	<div id="headtitle">
+			<font face="Microsoft YaHei" class="textOne" id="headOfMust" size="4">1.必填信息</font>
+			<font face="Microsoft YaHei" class="textOne" id="headOfChose" size="4">2.选填信息</font>
+			<font face="Microsoft YaHei" class="textOne" id="headOfMoney" size="4">3.费用处理</font>
+	</div>
+	</br>
 	<form class="form-horizontal" role="form" name="UserForm">
 		<div id="mustGive">
 			<div class="form-group" >
@@ -139,22 +138,23 @@
 						<tr v-for="projectForMoney in projects">
 							<td class="list1">{{projectForMoney.name}}</td>
 							<td v-bind:id="projectForMoney.id" class="list2">{{projectForMoney.money}} RMB</td>
-							<td class="list3"><input type="checkbox" v-on:click="showWholeMoney(projectForMoney.money)"></td>
+							<td class="list3"><input type="checkbox" v-on:click="showWholeMoney(projectForMoney.money, projectForMoney.name)" v-bind:id="projectForMoney.name"/></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<div>
-				<p id="moneyTitle">总费用</p>
+			<div style="text-align: center">
+				<p id="moneyTotle">总费用</p>
 				<input type="text" value="0" id="wholeMoney">
 			</div>
+			</br>
 		</div>
 	</form>
-	<button type="button" id="nextstep1" class="btn btn-primary col-xs-4 col-xs-push-4 col-sm-1 col-sm-push-5 col-md-1 col-md-push-5 col-lg-4 col-lg-push-4" onclick="changeToSecondNext()">下一步</button>
-	<button type="button" id="beforestep1" class="btn btn-primary col-xs-3 col-xs-push-2 col-sm-1 col-sm-push-3 col-md-1 col-md-push-3 col-lg-1 col-lg-push-4" onclick="changeToFirstBefore()">上一步</button>
-	<button type="button" id="nextstep2" class="btn btn-primary col-xs-3 col-xs-push-4 col-sm-1 col-sm-push-6 col-md-1 col-md-push-6 col-lg-1 col-lg-push-6" onclick="changeToThirdNext()">下一步</button>
-	<button type="button" id="beforestep2" class="btn btn-primary col-xs-3 col-xs-push-2 col-sm-1 col-sm-push-3 col-md-1 col-md-push-3 col-lg-1 col-lg-push-4" onclick="changeToSecondBefore()">上一步</button>
-	<button type="button" id="nextstep3" class="btn btn-primary col-xs-3 col-xs-push-4 col-sm-1 col-sm-push-6 col-md-1 col-md-push-6 col-lg-1 col-lg-push-6" onclick="changeToThirdNext()">报名交费</button>
+	<button type="button" id="nextstep1" class=" col-xs-4 col-xs-push-4 col-sm-1 col-sm-push-5 col-md-1 col-md-push-5 col-lg-4 col-lg-push-4" onclick="changeToSecondNext()">下一步</button>
+	<button type="button" id="beforestep1" class="col-xs-3 col-xs-push-2 col-sm-1 col-sm-push-3 col-md-1 col-md-push-3 col-lg-1 col-lg-push-4" onclick="changeToFirstBefore()">上一步</button>
+	<button type="button" id="nextstep2" class="col-xs-3 col-xs-push-4 col-sm-1 col-sm-push-6 col-md-1 col-md-push-6 col-lg-1 col-lg-push-6" onclick="changeToThirdNext()">下一步</button>
+	<button type="button" id="beforestep2" class="col-xs-3 col-xs-push-2 col-sm-1 col-sm-push-3 col-md-1 col-md-push-3 col-lg-1 col-lg-push-4" onclick="changeToSecondBefore()">上一步</button>
+	<button type="button" id="nextstep3" class="col-xs-3 col-xs-push-4 col-sm-1 col-sm-push-6 col-md-1 col-md-push-6 col-lg-1 col-lg-push-6" onclick="changeToThirdNext()">报名交费</button>
 </body>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script>
@@ -206,17 +206,28 @@
 			projects:[
 				{name:'吃',money:'13',id:'1'},{name:'喝',money:'31',id:'2'},
 			]
+		},
+		methods:{
+			showWholeMoney:function(x, y){
+				var z = document.getElementById("wholeMoney");
+				if(document.getElementById(y).checked){
+				    var m = parseInt(z.value);
+				    m += parseInt(x);
+				    z.value = m;
+				}
+				else{
+					var m = parseInt(z.value);
+				    m -= parseInt(x);
+				    z.value = m;
+				}
+			}
 		}
 	})
 </script>
 <script type="text/javascript">
 
-    var x = document.getElementById("wholeMoney");
-	function showWholeMoney(z){
-		var y = parseInt(x.value);
-		y = y + parseInt(z);
-		x.value = y;
-	}
+
+	
 
 	function changeToSecondNext(){
 		document.getElementById("mustGive").style.display = "none";

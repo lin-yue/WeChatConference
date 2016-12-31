@@ -18,7 +18,7 @@ window.urlParam = getQueryParams(document.location.search);
 
 
 window.dftFail = function (errno, errmsg, e) {
-    alert("加载失败: [" + errno + "] " + errmsg + " " + e + "\n请重试");
+    alert("加载失败: [" + errno + "] " + errmsg + " " + "\n请重试");
 };
 
 window.api = {
@@ -28,7 +28,7 @@ window.api = {
         complete = complete || $.noop;
         return $.get(url, data).done(function (response, status, xhr) {
             if (response.code != 0) {
-                return fail(response.code, response.msg);
+                return fail(response.code, response.message);
             } else {
                 return success(response.data);
             }
@@ -47,12 +47,19 @@ window.api = {
             contentType: 'application/json'
         }).done(function (response, status, xhr) {
             if (response.code != 0) {
-                return fail(response.code, response.msg);
+                return fail(response.code, response.message);
             } else {
                 return success(response.data);
             }
         }).fail(function (xhr, errmsg, e) {
             return fail(-2, errmsg, e);
         }).always(complete);
+    }
+};
+
+
+window.updateDate = function (obj) {
+    for (var i = 1, len = arguments.length; i < len; ++i) {
+        obj[arguments[i]] = new Date(obj[arguments[i]] * 1000);
     }
 };

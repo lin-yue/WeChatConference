@@ -1,0 +1,96 @@
+<!Doctype html>
+<html>
+<head>
+	<title>会议提醒</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--这里是外部css-->
+    <link rel="stylesheet" type="text/css" href="remindConferencesAdmin.css">
+    <script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+
+	
+
+	
+
+
+	
+</head>
+<body>
+	<div id = "headtitle">会议1</div>
+    <div class = "container">
+    <ul class="nav nav-pills" role="tablist">
+        <li role="presentation" class="active" id = "actNav1">提醒列表</li>
+        <li role="presentation" class ="notActiveNav" id = "passNav1">创建提醒</li>
+      </ul>
+    <!-- <button type="button" class="btn btn-lg btn-primary">创建提醒</button>
+    <p id = "remindsText">提醒列表</p> -->
+    <p id = "forPadding"></p>
+	<div id = "remindTable">
+                <table class="table table-bordered table-striped" id="moneylist">
+                    <thead>
+                        <th>序号</th>
+                        <th>提醒时间</th>
+                        <th>提醒内容</th>
+                    </thead>
+                    <tbody>
+                        <tr v-for="projectForMoney in projects">
+                            <td class="list1">1</td>
+                            <td v-bind:id="projectForMoney.id" class="list2">20</td>
+                            <td class="list3">啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</td>
+                        </tr>
+                        <tr v-for="projectForMoney in projects">
+                            <td class="list1">1</td>
+                            <td v-bind:id="projectForMoney.id" class="list2">20</td>
+                            <td class="list3">这是条短提醒</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="mustGive">
+            <div class="form-group" >
+                <label for="name" control-label">提醒内容：</label>
+                <textarea class="form-control" rows="5" placeholder="请输入要创建的提醒的内容" id ="remindCreated" ></textarea> 
+            </div>
+            <div id = "createButtonContain">
+                <button type="button" class="btn btn-primary" id="createButton">创建提醒</button>
+            </div>
+</div>
+
+    
+
+    <script type="text/javascript">
+
+    $("#actNav1").on("click",function(){
+            $("#mustGive").css("display", "none");
+            $("#remindTable").css("display", "block");
+            $('#actNav1').addClass('active');
+            $('#passNav1').addClass('notActiveNav');
+            $('#actNav1').removeClass('notActiveNav');
+            $('#passNav1').removeClass('active');
+         })
+    $("#passNav1").on("click",function(){
+             $("#remindTable").css("display", "none");
+             $("#mustGive").css("display", "block");
+             $('#actNav1').addClass('notActiveNav');
+            $('#passNav1').addClass('active');
+            $('#actNav1').removeClass('active');
+            $('#passNav1').removeClass('notActiveNav');
+         })
+    $(function(){
+        $("#mustGive").css("display", "none");
+
+
+    })
+
+
+
+        
+    </script>
+</html>
